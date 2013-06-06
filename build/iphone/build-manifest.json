@@ -1,0 +1,10 @@
+{
+	"target": "simulator",
+	"deployType": "development",
+	"deviceFamily": "iphone",
+	"iosSdkPath": "/Users/jensroels/Library/Application Support/Titanium/mobilesdk/osx/3.0.0.GA/iphone",
+	"appGuid": "5128cd17-4ba3-471f-bb75-d510e209ad67",
+	"tiCoreHash": "6b039db50f01934ab31311c911af38db",
+	"modulesHash": "d41d8cd98f00b204e9800998ecf8427e",
+	"gitHash": "a5894b3"
+}
