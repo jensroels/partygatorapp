@@ -1,3 +1,18 @@
+var jsonObject;
+var tabGroup = Titanium.UI.createTabGroup();
+
+
+
+//checken of er internet is en het facebook login scherm tonen
+function init(){
+	if(Titanium.Network.networkType != Titanium.Network.NETWORK_NONE)
+	{ 
+		loginWindow.open();
+	 }else{
+	 	var alertDialog = Titanium.UI.createAlertDialog({ title: 'Geen verbinding', message: 'Het lijkt erop dat u niet verbonden bent met een netwerk.', buttonNames: ['OK','Doh!'] }); alertDialog.show();
+	 }
+}
+
 //setup facebook login
 Ti.Facebook.appid = '155274344550663';
 Ti.Facebook.permissions = ['user_events,friends_events']; // Permissions your app needs
@@ -7,7 +22,7 @@ Ti.Facebook.addEventListener('login', function(e) {
         alert('Logged in');     
     }
 });
-
+	
 
 var loginWindow = Titanium.UI.createWindow({
 	title:'login',
@@ -16,7 +31,7 @@ var loginWindow = Titanium.UI.createWindow({
     navBarHidden:true
 })
 
-
+//facebook login button toevoegen aan het inlog window
 loginWindow.add(Ti.Facebook.createLoginButton({
     top : 350,
     style : Ti.Facebook.BUTTON_STYLE_WIDE
@@ -24,4 +39,5 @@ loginWindow.add(Ti.Facebook.createLoginButton({
 
 
 
-loginWindow.open();
+init();
+
