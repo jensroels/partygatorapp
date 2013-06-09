@@ -1,2 +1,2 @@
 dependencies: \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/TiUICanvasView.m
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiUICanvasView.m

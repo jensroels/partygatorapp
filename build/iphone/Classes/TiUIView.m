@@ -486,9 +486,9 @@ DEFINE_EXCEPTIONS
 -(void)renderRepeatedBackground:(id)image
 {
     if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        TiThreadPerformOnMainThread(^{
             [self renderRepeatedBackground:image];
-        });
+        }, NO);
         return;
     }
     
@@ -1128,19 +1128,6 @@ DEFINE_EXCEPTIONS
 			[proxy fireEvent:@"touchstart" withObject:evt propagate:YES];
 			[self handleControlEvents:UIControlEventTouchDown];
 		}
-        // Click handling is special; don't propagate if we have a delegate,
-        // but DO invoke the touch delegate.
-		// clicks should also be handled by any control the view is embedded in.
-		if ([touch tapCount] == 1 && [proxy _hasListeners:@"click"])
-		{
-			if (touchDelegate == nil) {
-				[proxy fireEvent:@"click" withObject:evt propagate:YES];
-				return;
-			} 
-		} else if ([touch tapCount] == 2 && [proxy _hasListeners:@"dblclick"]) {
-			[proxy fireEvent:@"dblclick" withObject:evt propagate:YES];
-			return;
-		}
 	}
 }
 
@@ -1185,6 +1172,20 @@ DEFINE_EXCEPTIONS
 		{
 			[proxy fireEvent:@"touchend" withObject:evt propagate:YES];
 			[self handleControlEvents:UIControlEventTouchCancel];
+		}
+        
+		// Click handling is special; don't propagate if we have a delegate,
+		// but DO invoke the touch delegate.
+		// clicks should also be handled by any control the view is embedded in.
+		if ([touch tapCount] == 1 && [proxy _hasListeners:@"click"])
+		{
+			if (touchDelegate == nil) {
+				[proxy fireEvent:@"click" withObject:evt propagate:YES];
+				return;
+			}
+		} else if ([touch tapCount] == 2 && [proxy _hasListeners:@"dblclick"]) {
+			[proxy fireEvent:@"dblclick" withObject:evt propagate:YES];
+			return;
 		}
 	}
 }

@@ -1,1 +1,1 @@
-/Users/jensroels/Dropbox/partygatorapp/Resources/app.js
+/Users/geoffreyverhulst/Dropbox/partygatorapp/Resources/app.js

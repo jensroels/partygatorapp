@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/TiThreading.m \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/TiThreading.h
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiThreading.m \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiThreading.h

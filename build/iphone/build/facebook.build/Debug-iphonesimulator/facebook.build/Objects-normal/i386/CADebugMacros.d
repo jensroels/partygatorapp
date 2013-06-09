@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/CADebugMacros.cpp \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/CADebugMacros.h
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/CADebugMacros.cpp \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/CADebugMacros.h

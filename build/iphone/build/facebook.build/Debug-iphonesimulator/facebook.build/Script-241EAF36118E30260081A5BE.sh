@@ -1,3 +1,4 @@
 #!/bin/sh
-/usr/local/bin/node "/usr/local/bin/titanium" build --platform iphone --sdk 3.0.0.GA --no-prompt --no-banner --xcode
+if [ "x$TITANIUM_CLI_XCODEBUILD" == "x" ]; then NO_COLORS="--no-colors"; else NO_COLORS=""; fi
+/usr/local/bin/node "/usr/local/bin/titanium" build --platform iphone --sdk 3.0.2.v20130215190201 --no-prompt --no-banner $NO_COLORS --xcode
 exit $?

@@ -75,7 +75,7 @@
 -(void)play:(id)args
 {
     [self rememberSelf];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    TiThreadPerformOnMainThread(^{
         // indicate we're going to start playback
         if (![[TiMediaAudioSession sharedSession] canPlayback]) {
             [self throwException:@"Improper audio session mode for playback"
@@ -88,12 +88,12 @@
         }
         [[self player] play];
         paused = NO;
-    });
+    }, NO);
 }
 
 -(void)stop:(id)args
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    TiThreadPerformOnMainThread(^{
         if (player != nil) {
             if ([player isPlaying] || paused) {
                 [player stop];
@@ -103,24 +103,24 @@
         }
         resumeTime = 0;
         paused = NO;
-    });
+    }, NO);
 }
 
 -(void)pause:(id)args
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    TiThreadPerformOnMainThread(^{
         if (player != nil) {
             if ([player isPlaying]) {
                 [player pause];
                 paused = YES;
             }
         }
-    });
+    }, NO);
 }
 
 -(void)reset:(id)args
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    TiThreadPerformOnMainThread(^{
         if (player != nil) {
             if (!([player isPlaying] || paused)) {
                 [[TiMediaAudioSession sharedSession] startAudioSession];
@@ -132,7 +132,7 @@
         }
         resumeTime = 0;
         paused = NO;
-    });
+    }, NO);
 }
 
 -(void)release:(id)args

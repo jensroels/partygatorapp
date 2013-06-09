@@ -1,4 +1,4 @@
 dependencies: \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.m \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.h \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/AudioStreamer/AudioStreamer.h
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.m \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/AudioStreamer/AudioStreamer.h

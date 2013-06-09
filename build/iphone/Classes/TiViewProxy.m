@@ -175,7 +175,7 @@
 			[self contentsWillChange];
 		}
 		else {
-			[self layoutChild:arg optimize:NO withMeasuredBounds:[[self size] rect]];
+			[self layoutChild:arg optimize:NO withMeasuredBounds:[[self view] bounds]];
 		}
 	}
 	else
@@ -264,18 +264,18 @@
 
 -(void)show:(id)arg
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+	TiThreadPerformOnMainThread(^{
         [self setHidden:NO withArgs:arg];
         [self replaceValue:NUMBOOL(YES) forKey:@"visible" notification:YES];
-    });
+    }, NO);
 }
  
 -(void)hide:(id)arg
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    TiThreadPerformOnMainThread(^{
         [self setHidden:YES withArgs:arg];
         [self replaceValue:NUMBOOL(NO) forKey:@"visible" notification:YES];
-    });
+    }, NO);
 }
 
 -(void)animate:(id)arg
@@ -1008,11 +1008,17 @@ LAYOUTFLAGS_SETTER(setHorizontalWrap,horizontalWrap,horizontalWrap,[self willCha
 		[childrenArray release];
 		[self viewDidAttach];
 
-		// make sure we do a layout of ourselves
-		if(CGRectIsEmpty(sandboxBounds) && (view != nil)){
-			[self setSandboxBounds:view.bounds];
+		// If parent has a non absolute layout signal the parent that
+		//contents will change else just lay ourselves out
+		if (parent != nil && (!TiLayoutRuleIsAbsolute([parent layoutProperties]->layoutStyle))) {
+			[parent contentsWillChange];
 		}
-		[self relayout];
+		else {
+			if(CGRectIsEmpty(sandboxBounds) && (view != nil)){
+				[self setSandboxBounds:view.bounds];
+			}
+			[self relayout];
+		}
 		viewInitialized = YES;
 	}
 
@@ -1199,40 +1205,6 @@ LAYOUTFLAGS_SETTER(setHorizontalWrap,horizontalWrap,horizontalWrap,[self willCha
 {
 	// for subclasses
 }
-
--(void)parentWillAppear:(id)args
-{
-    if ([self viewAttached]) {
-        pthread_rwlock_rdlock(&childrenLock);
-        [children makeObjectsPerformSelector:@selector(parentWillAppear:) withObject:args];
-        pthread_rwlock_unlock(&childrenLock);
-    }
-}
--(void)parentDidAppear:(id)args
-{
-    if ([self viewAttached]) {
-        pthread_rwlock_rdlock(&childrenLock);
-        [children makeObjectsPerformSelector:@selector(parentDidAppear:) withObject:args];
-        pthread_rwlock_unlock(&childrenLock);
-    }
-}
--(void)parentWillDisappear:(id)args
-{
-    if ([self viewAttached]) {
-        pthread_rwlock_rdlock(&childrenLock);
-        [children makeObjectsPerformSelector:@selector(parentWillDisappear:) withObject:args];
-        pthread_rwlock_unlock(&childrenLock);
-    }
-}
--(void)parentDidDisappear:(id)args
-{
-    if ([self viewAttached]) {
-        pthread_rwlock_rdlock(&childrenLock);
-        [children makeObjectsPerformSelector:@selector(parentDidDisappear:) withObject:args];
-        pthread_rwlock_unlock(&childrenLock);
-    }
-}
-
 
 #pragma mark Housecleaning state accessors
 
@@ -1559,6 +1531,9 @@ LAYOUTFLAGS_SETTER(setHorizontalWrap,horizontalWrap,horizontalWrap,[self willCha
 {
 	[self forgetProxy:animation];
 	[[self view] animationCompleted];
+	//Let us add ourselves to the queue to cleanup layout
+	OSAtomicTestAndClearBarrier(TiRefreshViewEnqueued, &dirtyflags);
+	[self willEnqueue];
 }
 
 -(void)makeViewPerformSelector:(SEL)selector withObject:(id)object createIfNeeded:(BOOL)create waitUntilDone:(BOOL)wait
@@ -2163,7 +2138,8 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
 
 		[parent insertSubview:view forProxy:self];
 
-
+		[self refreshSize];
+		[self refreshPosition];
 		repositioning = NO;
         
         if ([observer respondsToSelector:@selector(proxyDidRelayout:)]) {
@@ -2451,10 +2427,12 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
         
         CGFloat desiredWidth;
         BOOL recalculateWidth = NO;
+        BOOL isPercent = NO;
         
         if (TiDimensionIsDip(constraint) || TiDimensionIsPercent(constraint))
         {
             desiredWidth =  TiDimensionCalculateValue(constraint, bounds.size.width) + offsetH;
+            isPercent = TiDimensionIsPercent(constraint);
         }
         else if (TiDimensionIsUndefined(constraint))
         {
@@ -2501,7 +2479,14 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
                 bounds.origin.y = verticalLayoutBoundary;
                 if (!childIsFixedHeight)
                 {
-                    desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                    //TIMOB-11998. minimumParentHeightForSize:CGSize will limit width anyways. Pass bounding width here
+                    //desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                    if (isPercent) {
+                        desiredHeight = [child minimumParentHeightForSize:CGSizeMake(bounds.size.width,boundingHeight)];
+                    }
+                    else {
+                        desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                    }
                     bounds.size.height = desiredHeight;
                 }
                 verticalLayoutBoundary += bounds.size.height;
@@ -2522,7 +2507,14 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
                     if (desiredWidth < boundingWidth) {
                         if (!childIsFixedHeight)
                         {
-                            desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                            //TIMOB-11998. minimumParentHeightForSize:CGSize will limit width anyways. Pass bounding width here
+                            //desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                            if (isPercent) {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(bounds.size.width,boundingHeight)];
+                            }
+                            else {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                            }
                             bounds.size.height = desiredHeight;
                         }                    
                         horizontalLayoutBoundary += desiredWidth;
@@ -2533,7 +2525,12 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
                         //Will take up whole row
                         if (!childIsFixedHeight)
                         {
-                            desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                            if (isPercent) {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(bounds.size.width,boundingHeight)];
+                            }
+                            else {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                            }
                             bounds.size.height = desiredHeight;
                         }                    
                         verticalLayoutBoundary += bounds.size.height;
@@ -2553,7 +2550,14 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
                     if (desiredWidth < boundingWidth) {
                         if (!childIsFixedHeight)
                         {
-                            desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                            //TIMOB-11998. minimumParentHeightForSize:CGSize will limit width anyways. Pass bounding width here
+                            //desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                            if (isPercent) {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(bounds.size.width,boundingHeight)];
+                            }
+                            else {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                            }
                             bounds.size.height = desiredHeight;
                         }                    
                         bounds.size.width = desiredWidth;
@@ -2564,7 +2568,12 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
                         //Will take up whole row
                         if (!childIsFixedHeight)
                         {
-                            desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                            if (isPercent) {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(bounds.size.width,boundingHeight)];
+                            }
+                            else {
+                                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                            }
                             bounds.size.height = desiredHeight;
                         }
                         verticalLayoutBoundary += bounds.size.height;
@@ -2577,7 +2586,14 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
             //If it fits update the horizontal layout row height
             if (!childIsFixedHeight)
             {
-                desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                //TIMOB-11998. minimumParentHeightForSize:CGSize will limit width anyways. Pass bounding width here
+                //desiredHeight = [child minimumParentHeightForSize:CGSizeMake(desiredWidth,boundingHeight)];
+                if (isPercent) {
+                    desiredHeight = [child minimumParentHeightForSize:CGSizeMake(bounds.size.width,boundingHeight)];
+                }
+                else {
+                    desiredHeight = [child minimumParentHeightForSize:CGSizeMake(boundingWidth,boundingHeight)];
+                }
                 bounds.size.height = desiredHeight;
             }
             bounds.origin.x = horizontalLayoutBoundary;
@@ -2676,8 +2692,8 @@ if(OSAtomicTestAndSetBarrier(flagBit, &dirtyflags))	\
 	[child setSandboxBounds:bounds];
 	if ([[child view] animating])
 	{
-        // changing the layout while animating is bad, ignore for now
-        DebugLog(@"[WARN] New layout set while view %@ animating: Will relayout after animation.", child);
+		// changing the layout while animating is bad, ignore for now
+		DebugLog(@"[WARN] New layout set while view %@ animating: Will relayout after animation.", child);
 	}
 	else
 	{

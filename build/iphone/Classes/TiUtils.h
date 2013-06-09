@@ -7,8 +7,22 @@
  * WARNING: This is generated code. Modify at your own risk and without support.
  */
 
-#import "TiColor.h"
 #import "TiDimension.h"
+
+@class TiProxy;
+@class TiColor;
+@class TiFile;
+@class TiBuffer;
+@class WebFont;
+@class TiScriptError;
+
+/*	NOTE TO MODULE DEVELOPERS:
+ *	The following 4 imports will be going away as it's better to simply
+ *	forward-declare the classes in headers. If you've been relying on TiUtils
+ *	to do the including of TiProxy for you, please fix this. However, to
+ *	avoid breaking modules 
+ */
+#import "TiColor.h"
 #import "WebFont.h"
 #import "TiFile.h"
 #import "TiBuffer.h"
@@ -401,6 +415,8 @@ typedef enum {
 
 +(WebFont*)fontValue:(id)value;
 
++(TiScriptError*) scriptErrorValue:(id)value;
+
 +(UITextAlignment)textAlignmentValue:(id)alignment;
 
 /**
@@ -485,6 +501,12 @@ typedef enum {
  @return _YES_ if the current device has retina display, _NO_ otherwise.
  */
 +(BOOL)isRetinaDisplay;
+
+/**
+ Whether or not the current device has a 4 inch retina display (iPhone5).
+ @return _YES_ if the current device has a 4 inch retina display, _NO_ otherwise.
+ */
++(BOOL)isRetinaFourInch;
 
 +(int)dpi;
 

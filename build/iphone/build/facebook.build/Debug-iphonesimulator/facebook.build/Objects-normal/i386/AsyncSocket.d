@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/AsyncSocket.m \
-  /Users/jensroels/Dropbox/partygatorapp/build/iphone/Classes/AsyncSocket.h
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/AsyncSocket.m \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/AsyncSocket.h

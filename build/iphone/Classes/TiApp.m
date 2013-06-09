@@ -171,7 +171,7 @@ TI_INLINE void waitForMemoryPanicCleared();   //WARNING: This must never be run 
 
 - (void)boot
 {
-	DebugLog(@"[INFO] %@/%@ (%s.a5894b3)",TI_APPLICATION_NAME,TI_APPLICATION_VERSION,TI_VERSION_STR);
+	DebugLog(@"[INFO] %@/%@ (%s.5a77fe7)",TI_APPLICATION_NAME,TI_APPLICATION_VERSION,TI_VERSION_STR);
 	
 	sessionId = [[TiUtils createUUID] retain];
 	TITANIUM_VERSION = [[NSString stringWithCString:TI_VERSION_STR encoding:NSUTF8StringEncoding] retain];
