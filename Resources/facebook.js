@@ -16,15 +16,6 @@ var loginWindow = Titanium.UI.createWindow({
     navBarHidden:true
 })
 
-
-function isUserLoggedInFacebook(){
-	if(Ti.Facebook.isLoggedIn()){
-		return true;
-	}else{
-		return false;
-	}
-}
-
 //facebook login button toevoegen aan het inlog window
 loginWindow.add(Ti.Facebook.createLoginButton({
     top : 350,
