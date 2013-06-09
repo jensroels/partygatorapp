@@ -10,7 +10,7 @@ function checkonline(){
 		//loginWindow.open();
 		return true;
 	 }else{
-	 	var alertDialog = Titanium.UI.createAlertDialog({ title: 'Geen verbinding', message: 'Het lijkt erop dat u niet verbonden bent met een netwerk.', buttonNames: ['OK','Doh!'] }); alertDialog.show();
+	 	var alertDialog = Titanium.UI.createAlertDialog({ title: 'Geen verbinding', message: 'Het lijkt erop dat u niet verbonden bent met een netwerk.', buttonNames: ['OK'] }); alertDialog.show();
 	 	return false;
 	 }
 }
@@ -22,3 +22,7 @@ if(checkonline()){
 	loginWindow.open();
 }
 
+if(isUserLoggedInFacebook())
+{
+	alert("user is ingelogd in facebook");
+}
