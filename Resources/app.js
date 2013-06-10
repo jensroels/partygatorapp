@@ -48,7 +48,7 @@ var mapView = Titanium.Map.createView({
 	height:170,
 	width:"100%",
 	mapType: Titanium.Map.STANDARD_TYPE,
-	userLocation:true,
+	userLocation:false
 })
 
 
@@ -96,6 +96,11 @@ function checkonline(){
 
 function getEvents(){
 	if(checkonline()){
+	//annotations verwijderen als marker gedragged wordt
+	/*for (i=annotationObject.length-1;i>=0;i--) {
+        mapView.removeAnnotation(annotationObject[i]);
+    }
+    annotationObject = [];*/
 	xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
 	xhr.send();
 	}
@@ -114,6 +119,7 @@ xhr.onload = function() {
    	id:i,
    	rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
    	title:title,
+   	image: "images/pin_red.png",
    	animate:true
    })
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
@@ -143,6 +149,28 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         my_lng=e.coords.longitude;
 		mapView.setLocation(region);
 		mapViewDetail.setLocation(region);
+		
+		var myLoc = Titanium.Map.createAnnotation({
+		    latitude: e.coords.latitude,
+		    longitude: e.coords.longitude,
+		    title:"Current location",
+		    subtitle:'Drag me around, soon!',
+		    animate:true,
+		    image: "images/pin_black.png",
+		    myId: 1,
+		    draggable: false
+		});
+		mapView.addAnnotation(myLoc);
+		
+		//coordinaten opvangen bij slepen + events oproepen
+		/*mapView.addEventListener("pinchangedragstate", function(e) {
+ 			Ti.API.info("New latitude: " + e.annotation.latitude);
+  			Ti.API.info("New longitude: " + e.annotation.longitude);
+  			my_lat=e.annotation.latitude;
+  			my_lng=e.annotation.longitude;
+  			getEvents();
+		});*/
+		
 		getEvents();
 });
 

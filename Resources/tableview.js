@@ -139,6 +139,7 @@ var marker = Ti.Map.createAnnotation({
         title: titel,
         pincolor:Titanium.Map.ANNOTATION_RED,
         animate:true,
+        image: "images/pin_red.png",
         myid: 'event' // Custom property to uniquely identify this annotation.
     });
     mapViewDetail.addAnnotation(marker);	
@@ -148,8 +149,8 @@ titleDetail.setText(titel.substr(0,30));
             latitude: lat,
             longitude: long,
             animate:true,
-            latitudeDelta:0.01,
-            longitudeDelta:0.01, 
+            latitudeDelta:0.001,
+            longitudeDelta:0.001, 
         };
         mapViewDetail.setLocation(detailRegion);
 locationDetail.setText(locatie.toUpperCase().substr(0,30));
@@ -158,3 +159,22 @@ dagDetail.setText(startdatum.substr(8,2));
 maandDetail.setText(month[parseInt(startdatum.substr(5,2), 10)]);
 hometab.open(detailWindow,{animated:true});
 }
+
+
+
+//checken of de array bestaat, eventlistener op annotations en scrollen naar de bijhorende list - ERRORT
+   /*var clicktruefalse = 1;
+   mapView.addEventListener('click', function(event){
+	   if(typeof annotationObject === 'undefined'){
+	   	alert('array empty');
+	   }else if(annotationObject.length > 0){
+	   		var clicksource = event.annotationObject.id;
+	   		if(clicktruefalse == 1){
+	   			alert(clicksource);
+	   			tableView.scrollToIndex(clicksource);
+	   			clicktruefalse = 0;
+	   		}else if(event.clicksource != annotationObject){
+	   			clicktruefalse = 1;
+	   		}
+		}
+	});*/

@@ -5,6 +5,8 @@
 var detailWindow = Titanium.UI.createWindow({
 	backgroundColor: "#ffffff",
 	navBarHidden: false,
+	backgroundGradient:{},
+	barImage:'images/barimage.png', 
 	barColor: '#ef4e4e'
 });
 
@@ -118,6 +120,5 @@ var dateViewDetail = Titanium.UI.createView({
 
 
 detailWindow.add(mapViewDetail);
-
 
 
