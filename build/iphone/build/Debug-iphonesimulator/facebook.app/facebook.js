@@ -1,1 +1,1 @@
-/Users/geoffreyverhulst/Dropbox/partygatorapp/Resources/facebook.js
+/Users/geoffreyverhulst/Dropbox/partygatorapp-master/Resources/facebook.js

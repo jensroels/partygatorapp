@@ -1,11 +1,16 @@
 var jsonObject;
 var data = [];
+var region;
 var tabGroup = Titanium.UI.createTabGroup();
 Ti.include('facebook.js');
+Ti.include('tableview.js');
+Ti.include('detailwindow.js');
 var xhr = Titanium.Network.createHTTPClient();
 var my_lat;
 var my_lng;	
 var annotationObject = [];
+var tabGroup = Titanium.UI.createTabGroup();
+
 var month=new Array();
 month[0]="JAN";
 month[1]="FEB";
@@ -23,39 +28,43 @@ month[11]="DEC";
 
 //het home screen 
 var homeWindow = Titanium.UI.createWindow({
-	backgroundColor: "#ffffff"
+	backgroundColor: "#ffffff",
+	tabBarHidden:true,
+	navBarHidden: true
 });
+
+var hometab = Titanium.UI.createTab({
+	window:homeWindow,
+	tabBarHidden:true,
+	navBarHidden: true
+})
+
+tabGroup.addTab(hometab);
 
 //mapview voor op het home screen
 var mapView = Titanium.Map.createView({
-	top:50,
+	top:44,
 	left:0,
 	height:170,
 	width:"100%",
 	mapType: Titanium.Map.STANDARD_TYPE,
-	userLocation:false,
+	userLocation:false
 })
 
 
-var tableView = Titanium.UI.createTableView({
-	top:220,
-	backgroundColor:"#2e3945",
-	separatorColor:'#575f67',
-	data:data
-})
 
 //top navigatie bar voor periode te changen
 var topNavBar = Titanium.UI.createView({
-	height:50,
+	height:44,
 	width:"100%",
 	top:0,
 	backgroundColor: "#ef4e4e"
 })
 
 var periodeLabel = Titanium.UI.createLabel({
-	text:"TODAY",
+	text:"PARTYGATOR",
 	font: { fontSize: 18, font: "Helvetica Neue", fontWeight:"bold" },
-	top: 10,
+	top: 7,
 	height:30,
 	width:"100%",
 	color:"#ffffff",
@@ -69,9 +78,8 @@ getLocation();
 
 homeWindow.add(topNavBar);
 homeWindow.add(mapView);
-homeWindow.add(tableView);
-homeWindow.open();
-
+//homeWindow.open();
+tabGroup.open();
 //checken of er internet is en het facebook login scherm tonen
 function checkonline(){
 	if(Titanium.Network.networkType != Titanium.Network.NETWORK_NONE)
@@ -87,6 +95,7 @@ function checkonline(){
 
 
 function getEvents(){
+	if(checkonline()){
 	//annotations verwijderen als marker gedragged wordt
 	/*for (i=annotationObject.length-1;i>=0;i--) {
         mapView.removeAnnotation(annotationObject[i]);
@@ -94,11 +103,13 @@ function getEvents(){
     annotationObject = [];*/
 	xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
 	xhr.send();
+	}
 }
 
 
 xhr.onload = function() {
    jsonObject = JSON.parse(this.responseText);
+   homeWindow.add(tableView);
    for(var i = 0;i<jsonObject.events.length;i++){
    	
    var title = jsonObject.events[i].name;
@@ -106,134 +117,17 @@ xhr.onload = function() {
    	latitude:jsonObject.events[i].latitude,
    	longitude:jsonObject.events[i].longitude,
    	id:i,
-   	//rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+   	rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
    	title:title,
    	image: "images/pin_red.png",
    	animate:true
    })
-   addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location);
+   addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
    }
-   tableView.setData(data);
+   //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
    
  }
-
- 
- 
-//een rij toevoegen aan de array voor de tableview
-function addRow(titel,startdatum, location){
-	Ti.API.info(startdatum);
-	
-	var title= Titanium.UI.createLabel({
-   	text:titel.substr(0,22).toUpperCase(),
-   	top:10,
-   	color:'#ffffff',
-   	width:240,
-   	left:58,
-   	font: { fontSize:15,fontWeight:'bold'},
-   	textAlign:'left'
-   })
-   
-   var dateView = Titanium.UI.createView({
-   	backgroundColor:"#3a4a58",
-   	width:49,
-   	height:"100%",
-   	left:0
-   })
-   
-   var dag = Titanium.UI.createLabel({
-   	text:startdatum.substr(8,2),
-   	font:{fontSize:20, fontWeight:"bold"},
-   	top: 15,
-   	left:12,
-   	color:"#fff"
-   })
-   
-   var maand = Titanium.UI.createLabel({
-   	text:month[parseInt(startdatum.substr(5,2), 10)],
-   	color:"#ffffff",
-   	top:45,
-   	left:9,
-   	font:{fontSize:15, fontWeight:"bold"}
-   })
-   
-   var line = Titanium.UI.createView({
-   	backgroundColor:"#ffffff",
-   	width:33,
-   	height:1,
-   	left:7,
-   	top: 41
-   })
-   
-   	var location = Titanium.UI.createLabel({
- 	top:35,
- 	left:72,
- 	font:{fontSize:12, fontWeight:"bold"},
- 	width:230,
- 	textAlign:"left",
- 	color:"#d0d1d3",
- 	text:location.toUpperCase().substr(0,28)	
- 	});
- 	
- 	var startuur= Titanium.UI.createLabel({
-   	text:startdatum.substr(11,5),
-   	color:'#d0d1d3',
-   	font: { fontSize:12, fontWeight:'bold'},
-   	width:212,
-   	top:55,
-   	left:72,
-   	textAlign:'left'
-   });
-   
-   var iconLocatie = Ti.UI.createImageView({
-  image:'/images/ico_locatie.png',
-  top:35,
-  left:55
-});
-   
-  var iconTijd = Ti.UI.createImageView({
-  image:'/images/ico_tijd.png',
-  top:55,
-  left:55
-});
-   
-   dateView.add(maand);
-   dateView.add(dag);
-   dateView.add(line);
-   
-    var row = Titanium.UI.createTableViewRow({
-   	height:80,
-   	classname:"tableRow"
-   })
-
-   row.add(title);
-   row.add(iconLocatie);
-   row.add(location);
-   row.add(iconTijd);
-   row.add(startuur);
-   row.add(dateView);
-   data.push(row);
-   row.addEventListener('click', function(event){
-		mapView.selectAnnotation(annotationObject[event.index]);
-   });
-
-}
-   //checken of de array bestaat, eventlistener op annotations en scrollen naar de bijhorende list - ERRORT
-   /*var clicktruefalse = 1;
-   mapView.addEventListener('click', function(event){
-	   if(typeof annotationObject === 'undefined'){
-	   	alert('array empty');
-	   }else if(annotationObject.length > 0){
-	   		var clicksource = event.annotationObject.id;
-	   		if(clicktruefalse == 1){
-	   			alert(clicksource);
-	   			tableView.scrollToIndex(clicksource);
-	   			clicktruefalse = 0;
-	   		}else if(event.clicksource != annotationObject){
-	   			clicktruefalse = 1;
-	   		}
-		}
-	});*/
 
 
 function getLocation(){
@@ -244,7 +138,7 @@ Titanium.Geolocation.distanceFilter = 5;
 //Get the current position and set it to the mapview
 // vie latitude delte en longitute delta het zoom gehalte instellen hoe groter het getal hoe verder uit gezoemt
 Titanium.Geolocation.getCurrentPosition(function(e){
-        var region={
+       region={
             latitude: e.coords.latitude,
             longitude: e.coords.longitude,
             animate:true,
@@ -254,7 +148,8 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
 		mapView.setLocation(region);
-		//custom eigenlocatie annotation
+		mapViewDetail.setLocation(region);
+		
 		var myLoc = Titanium.Map.createAnnotation({
 		    latitude: e.coords.latitude,
 		    longitude: e.coords.longitude,

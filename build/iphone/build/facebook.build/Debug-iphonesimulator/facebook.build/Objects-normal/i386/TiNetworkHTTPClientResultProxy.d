@@ -1,31 +1,31 @@
 dependencies: \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiNetworkHTTPClientResultProxy.m \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiNetworkHTTPClientResultProxy.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiProxy.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiBase.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiThreading.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiPublicAPI.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiEvaluator.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/KrollContext.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/headers/TiCore/TiCore.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiNetworkHTTPClientResultProxy.m \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiNetworkHTTPClientResultProxy.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiProxy.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiBase.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiThreading.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiPublicAPI.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiEvaluator.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/KrollContext.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/headers/TiCore/TiCore.h \
   headers/TiCore/Ti.h headers/TiCore/TiBase.h \
   headers/TiCore/TiContextRef.h headers/TiCore/TiObjectRef.h \
   headers/TiCore/TiValueRef.h headers/TiCore/WebKitAvailability.h \
   headers/TiCore/TiStringRef.h headers/TiCore/TiStringRefCF.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/headers/TiCore/TiContextRefPrivate.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/KrollCallback.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/KrollObject.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiBindingRunLoop.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiNetworkHTTPClientProxy.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiBlob.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/ASI/ASIFormDataRequest.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/ASI/ASIHTTPRequest.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/ASI/ASIHTTPRequestConfig.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/ASI/ASIHTTPRequestDelegate.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/ASI/ASIProgressDelegate.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/ASI/ASICacheDelegate.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiDOMDocumentProxy.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/GDataXMLNode.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/headers/TiCore/TiContextRefPrivate.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/KrollCallback.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/KrollObject.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiBindingRunLoop.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiNetworkHTTPClientProxy.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiBlob.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/ASI/ASIFormDataRequest.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/ASI/ASIHTTPRequest.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/ASI/ASIHTTPRequestConfig.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/ASI/ASIHTTPRequestDelegate.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/ASI/ASIProgressDelegate.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/ASI/ASICacheDelegate.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiDOMDocumentProxy.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/GDataXMLNode.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/usr/include/libxml2/libxml/tree.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/usr/include/libxml2/libxml/xmlversion.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/usr/include/libxml2/libxml/xmlexports.h \
@@ -49,13 +49,13 @@ dependencies: \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/usr/include/libxml2/libxml/SAX2.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/usr/include/libxml2/libxml/xpath.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/usr/include/libxml2/libxml/xpathInternals.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiDOMNodeProxy.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/KrollMethod.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/KrollMethodDelegate.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/KrollPropertyDelegate.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiUtils.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiDimension.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiColor.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/WebFont.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiFile.h \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/Classes/TiBuffer.h
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiDOMNodeProxy.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/KrollMethod.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/KrollMethodDelegate.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/KrollPropertyDelegate.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiUtils.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiDimension.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiColor.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/WebFont.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiFile.h \
+  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/Classes/TiBuffer.h
