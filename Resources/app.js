@@ -207,10 +207,21 @@ function addRow(titel,startdatum, location){
    row.add(dateView);
    data.push(row);
    row.addEventListener('click', function(event){
-		//mapView.selectAnnotation(e.annotationObject);
 		mapView.selectAnnotation(annotationObject[event.index]);
    });
+
 }
+   var clicktruefalse = 1;
+   mapView.addEventListener('click', function(event){
+   		var clicksource = annotationObject[event.index].id;
+   		if(clicktruefalse == 1){
+   			//alert(clicksource);
+   			tableView.scrollToIndex(clicksource);
+   			clicktruefalse = 0;
+   		}else{
+   			clicktruefalse = 1;
+   		}
+   });
 
 
 function getLocation(){
