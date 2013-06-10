@@ -33,7 +33,7 @@ var mapView = Titanium.Map.createView({
 	height:170,
 	width:"100%",
 	mapType: Titanium.Map.STANDARD_TYPE,
-	userLocation:true,
+	userLocation:false,
 })
 
 
@@ -87,6 +87,11 @@ function checkonline(){
 
 
 function getEvents(){
+	//annotations verwijderen als marker gedragged wordt
+	/*for (i=annotationObject.length-1;i>=0;i--) {
+        mapView.removeAnnotation(annotationObject[i]);
+    }
+    annotationObject = [];*/
 	xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
 	xhr.send();
 }
@@ -101,15 +106,18 @@ xhr.onload = function() {
    	latitude:jsonObject.events[i].latitude,
    	longitude:jsonObject.events[i].longitude,
    	id:i,
-   	rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+   	//rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
    	title:title,
+   	image: "images/pin_red.png",
    	animate:true
    })
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location);
    }
    tableView.setData(data);
    mapView.addAnnotations(annotationObject);
+   
  }
+
  
  
 //een rij toevoegen aan de array voor de tableview
@@ -197,8 +205,7 @@ function addRow(titel,startdatum, location){
    	height:80,
    	classname:"tableRow"
    })
-   
-   
+
    row.add(title);
    row.add(iconLocatie);
    row.add(location);
@@ -211,17 +218,22 @@ function addRow(titel,startdatum, location){
    });
 
 }
-   var clicktruefalse = 1;
+   //checken of de array bestaat, eventlistener op annotations en scrollen naar de bijhorende list - ERRORT
+   /*var clicktruefalse = 1;
    mapView.addEventListener('click', function(event){
-   		var clicksource = annotationObject[event.index].id;
-   		if(clicktruefalse == 1){
-   			//alert(clicksource);
-   			tableView.scrollToIndex(clicksource);
-   			clicktruefalse = 0;
-   		}else{
-   			clicktruefalse = 1;
-   		}
-   });
+	   if(typeof annotationObject === 'undefined'){
+	   	alert('array empty');
+	   }else if(annotationObject.length > 0){
+	   		var clicksource = event.annotationObject.id;
+	   		if(clicktruefalse == 1){
+	   			alert(clicksource);
+	   			tableView.scrollToIndex(clicksource);
+	   			clicktruefalse = 0;
+	   		}else if(event.clicksource != annotationObject){
+	   			clicktruefalse = 1;
+	   		}
+		}
+	});*/
 
 
 function getLocation(){
@@ -242,6 +254,28 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
 		mapView.setLocation(region);
+		//custom eigenlocatie annotation
+		var myLoc = Titanium.Map.createAnnotation({
+		    latitude: e.coords.latitude,
+		    longitude: e.coords.longitude,
+		    title:"Current location",
+		    subtitle:'Drag me around, soon!',
+		    animate:true,
+		    image: "images/pin_black.png",
+		    myId: 1,
+		    draggable: false
+		});
+		mapView.addAnnotation(myLoc);
+		
+		//coordinaten opvangen bij slepen + events oproepen
+		/*mapView.addEventListener("pinchangedragstate", function(e) {
+ 			Ti.API.info("New latitude: " + e.annotation.latitude);
+  			Ti.API.info("New longitude: " + e.annotation.longitude);
+  			my_lat=e.annotation.latitude;
+  			my_lng=e.annotation.longitude;
+  			getEvents();
+		});*/
+		
 		getEvents();
 });
 
