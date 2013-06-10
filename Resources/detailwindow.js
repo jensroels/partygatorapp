@@ -12,7 +12,7 @@ var detailWindow = Titanium.UI.createWindow({
 var mapViewDetail = Titanium.Map.createView({
 	top:0,
 	left:0,
-	height:200,
+	height:230,
 	width:"100%",
 	mapType: Titanium.Map.STANDARD_TYPE,
 	userLocation:true,
@@ -55,7 +55,7 @@ var dateViewDetail = Titanium.UI.createView({
    var titleDetail = Titanium.UI.createLabel({
    	top:10,
    	color:'#ffffff',
-   	width:240,
+   	width:260,
    	left:58,
    	font: { fontSize:15,fontWeight:'bold'},
    	textAlign:'left'
@@ -65,7 +65,7 @@ var dateViewDetail = Titanium.UI.createView({
  	top:35,
  	left:72,
  	font:{fontSize:12, fontWeight:"bold"},
- 	width:230,
+ 	width:260,
  	textAlign:"left",
  	color:"#d0d1d3",
  	});
@@ -93,7 +93,7 @@ var dateViewDetail = Titanium.UI.createView({
 
    var rowDetail = Titanium.UI.createView({
    	height:80,
-   	top:200,
+   	top:230,
    	left:0,
    	width:"100%",
    	backgroundColor:"#2e3945"

@@ -2,7 +2,7 @@
  * @author Jens Roels
  */
 var tableView = Titanium.UI.createTableView({
-	top:220,
+	top:214,
 	backgroundColor:"#2e3945",
 	height:"100%",
 	separatorColor:'#575f67',
@@ -10,8 +10,10 @@ var tableView = Titanium.UI.createTableView({
 })
 
 
-function addRow(titel,startdatum, locatie, einddatum){
+function addRow(titel,startdatum, locatie, einddatum, long, lat){
 	//Ti.API.info(startdatum);
+	
+		
 	var title= Titanium.UI.createLabel({
    	text:titel.substr(0,22).toUpperCase(),
    	top:10,
@@ -113,7 +115,7 @@ function addRow(titel,startdatum, locatie, einddatum){
       detailButton.addEventListener('click', function(event){
 		//mapView.selectAnnotation(e.annotationObject);
 		//alert("test detail");
-		openDetailWindow(titel,startdatum, locatie, einddatum);
+		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat);
    });
    
    tableView.appendRow(row);
@@ -127,9 +129,30 @@ function addRow(titel,startdatum, locatie, einddatum){
 }
 
 
-function openDetailWindow(titel,startdatum, locatie, einddatum){
-titleDetail.setText(titel.substr(0,25));
-locationDetail.setText(locatie.toUpperCase().substr(0,28));
+//deze functie gaat het detail view openen
+// met de variabele die worden door gegeven wordt de inhoud vaangepast naar de juiste informatie
+function openDetailWindow(titel,startdatum, locatie, einddatum, long, lat){
+	
+var marker = Ti.Map.createAnnotation({
+        latitude: lat,
+        longitude: long,
+        title: titel,
+        pincolor:Titanium.Map.ANNOTATION_RED,
+        animate:true,
+        myid: 'event' // Custom property to uniquely identify this annotation.
+    });
+    mapViewDetail.addAnnotation(marker);	
+	mapViewDetail.selectAnnotation(marker);
+titleDetail.setText(titel.substr(0,30));
+   detailRegion={
+            latitude: lat,
+            longitude: long,
+            animate:true,
+            latitudeDelta:0.01,
+            longitudeDelta:0.01, 
+        };
+        mapViewDetail.setLocation(detailRegion);
+locationDetail.setText(locatie.toUpperCase().substr(0,30));
 startuurDetail.setText(startdatum.substr(11,5)+' - '+einddatum.substr(11,5));
 dagDetail.setText(startdatum.substr(8,2));
 maandDetail.setText(month[parseInt(startdatum.substr(5,2), 10)]);

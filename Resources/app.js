@@ -1,5 +1,6 @@
 var jsonObject;
 var data = [];
+var region;
 var tabGroup = Titanium.UI.createTabGroup();
 Ti.include('facebook.js');
 Ti.include('tableview.js');
@@ -42,7 +43,7 @@ tabGroup.addTab(hometab);
 
 //mapview voor op het home screen
 var mapView = Titanium.Map.createView({
-	top:50,
+	top:44,
 	left:0,
 	height:170,
 	width:"100%",
@@ -54,7 +55,7 @@ var mapView = Titanium.Map.createView({
 
 //top navigatie bar voor periode te changen
 var topNavBar = Titanium.UI.createView({
-	height:50,
+	height:44,
 	width:"100%",
 	top:0,
 	backgroundColor: "#ef4e4e"
@@ -63,7 +64,7 @@ var topNavBar = Titanium.UI.createView({
 var periodeLabel = Titanium.UI.createLabel({
 	text:"PARTYGATOR",
 	font: { fontSize: 18, font: "Helvetica Neue", fontWeight:"bold" },
-	top: 10,
+	top: 7,
 	height:30,
 	width:"100%",
 	color:"#ffffff",
@@ -115,7 +116,7 @@ xhr.onload = function() {
    	title:title,
    	animate:true
    })
-   addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time);
+   addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
    }
    //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
@@ -131,7 +132,7 @@ Titanium.Geolocation.distanceFilter = 5;
 //Get the current position and set it to the mapview
 // vie latitude delte en longitute delta het zoom gehalte instellen hoe groter het getal hoe verder uit gezoemt
 Titanium.Geolocation.getCurrentPosition(function(e){
-        var region={
+       region={
             latitude: e.coords.latitude,
             longitude: e.coords.longitude,
             animate:true,
@@ -141,6 +142,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
 		mapView.setLocation(region);
+		mapViewDetail.setLocation(region);
 		getEvents();
 });
 
