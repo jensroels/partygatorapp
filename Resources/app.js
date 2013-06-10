@@ -28,7 +28,7 @@ month[11]="DEC";
 
 //het home screen 
 var homeWindow = Titanium.UI.createWindow({
-	backgroundColor: "#ffffff",
+	backgroundColor: "#2e3945",
 	tabBarHidden:true,
 	navBarHidden: true
 });
@@ -74,13 +74,30 @@ var periodeLabel = Titanium.UI.createLabel({
 
 topNavBar.add(periodeLabel);
 
-getLocation();	
+
 
 homeWindow.add(topNavBar);
 homeWindow.add(mapView);
 
-//homeWindow.open();
+if(!Titanium.App.Properties.hasProperty("firstrun")){
+	Titanium.App.Properties.setBool('firstrun',1);
+	alert("first run");
+}else{
+	//alert("not first run");
+	runPartyGator();
+}
+
+
+
+function runPartyGator(){
 tabGroup.open();
+homeWindow.add(activityIndicator);
+activityIndicator.show();
+getLocation();		
+}
+
+
+
 //checken of er internet is en het facebook login scherm tonen
 function checkonline(){
 	if(Titanium.Network.networkType != Titanium.Network.NETWORK_NONE)
@@ -102,6 +119,7 @@ function getEvents(){
         mapView.removeAnnotation(annotationObject[i]);
     }
     annotationObject = [];*/
+
 	xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
 	xhr.send();
 	}
@@ -126,6 +144,7 @@ xhr.onload = function() {
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
    
    }
+   activityIndicator.hide()
    	//als er geklikt wordt op de annotations checken of het een pin is en dan scrollen naar de lijst
      mapView.addEventListener("click",function(e){
 	if(e.clicksource=="pin"){;

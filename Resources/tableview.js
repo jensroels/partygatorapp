@@ -10,6 +10,19 @@ var tableView = Titanium.UI.createTableView({
 })
 
 
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: '#ef4e4e',
+  font: {fontFamily:'Helvetica Neue', fontSize:26, fontWeight:'bold'},
+  style:Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+  top:280,
+  left:130,
+  height:50,
+  width:50
+});
+
+
+
+
 function addRow(titel,startdatum, locatie, einddatum, long, lat){
 	//Ti.API.info(startdatum);
 	
