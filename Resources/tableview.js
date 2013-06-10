@@ -4,7 +4,7 @@
 var tableView = Titanium.UI.createTableView({
 	top:214,
 	backgroundColor:"#2e3945",
-	height:"100%",
+	height:419,
 	separatorColor:'#575f67',
 	data:data
 })
@@ -118,12 +118,13 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
 		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat);
    });
    
-   tableView.appendRow(row);
-   //data.push(row);
+  tableView.appendRow(row);
+  //data.push(row);
    
    
    row.addEventListener('click', function(event){
 		//mapView.selectAnnotation(e.annotationObject);
+		Ti.API.info(event.index);
 		mapView.selectAnnotation(annotationObject[event.index]);
    });
 }
@@ -159,6 +160,7 @@ dagDetail.setText(startdatum.substr(8,2));
 maandDetail.setText(month[parseInt(startdatum.substr(5,2), 10)]);
 hometab.open(detailWindow,{animated:true});
 }
+
 
 
 

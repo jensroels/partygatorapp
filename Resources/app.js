@@ -78,6 +78,7 @@ getLocation();
 
 homeWindow.add(topNavBar);
 homeWindow.add(mapView);
+
 //homeWindow.open();
 tabGroup.open();
 //checken of er internet is en het facebook login scherm tonen
@@ -123,10 +124,18 @@ xhr.onload = function() {
    	animate:true
    })
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
+   
    }
+   	//als er geklikt wordt op de annotations checken of het een pin is en dan scrollen naar de lijst
+     mapView.addEventListener("click",function(e){
+	if(e.clicksource=="pin"){;
+	tableView.scrollToIndex( e.index-1, {animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.TOP});
+	}
+})
    //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
-   
+
+
  }
 
 
