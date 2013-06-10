@@ -1,6 +1,7 @@
 var tableView = Titanium.UI.createTableView({
 	top:220,
 	backgroundColor:"#2e3945",
+	height:"100%",
 	separatorColor:'#575f67',
 	data:data
 })
@@ -26,11 +27,11 @@ function addRow(titel,startdatum, location, einddatum){
    })
    
    var detailButton = Titanium.UI.createButton({
-   width:50,
+   width:38,
    backgroundImage:"/images/detailbutton.png",
+   backgroundSelectedImage:"/images/detailbutton.png",
    height:"100%",
-   text:"",
-   left:270
+   left:282
    });
    
    var dag = Titanium.UI.createLabel({
@@ -98,7 +99,6 @@ function addRow(titel,startdatum, location, einddatum){
    	classname:"tableRow"
    })
    
-   
    row.add(title);
    row.add(iconLocatie);
    row.add(location);
@@ -106,6 +106,13 @@ function addRow(titel,startdatum, location, einddatum){
    row.add(startuur);
    row.add(dateView);
    row.add(detailButton);
+   
+      detailButton.addEventListener('click', function(event){
+		//mapView.selectAnnotation(e.annotationObject);
+		//alert("test detail");
+		openDetailWindow();
+   });
+   
    tableView.appendRow(row);
    //data.push(row);
    
@@ -114,4 +121,10 @@ function addRow(titel,startdatum, location, einddatum){
 		//mapView.selectAnnotation(e.annotationObject);
 		mapView.selectAnnotation(annotationObject[event.index]);
    });
+}
+
+
+function openDetailWindow(){
+//detailWindow.open();
+hometab.open(detailWindow,{animated:true});
 }
