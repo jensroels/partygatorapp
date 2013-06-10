@@ -2,7 +2,7 @@ var jsonObject;
 var data = [];
 var tabGroup = Titanium.UI.createTabGroup();
 Ti.include('facebook.js');
-Ti.include('table.js');
+Ti.include('tableview.js');
 Ti.include('detailwindow.js');
 var xhr = Titanium.Network.createHTTPClient();
 var my_lat;
