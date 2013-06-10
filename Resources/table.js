@@ -29,7 +29,7 @@ function addRow(titel,startdatum, location, einddatum){
    width:50,
    backgroundImage:"/images/detailbutton.png",
    height:"100%",
-   text:"detail",
+   text:"",
    left:270
    });
    
