@@ -1,8 +1,8 @@
-#appname:facebook
-#publisher:jensroels
-#url:http://jensroels.be
-#image:appicon.png
-#appid:be.jens.facebook
-#desc:not specified
-#type:mobile
-#guid:5128cd17-4ba3-471f-bb75-d510e209ad67
+#appname: facebook
+#publisher: jensroels
+#url: http://jensroels.be
+#image: appicon.png
+#appid: be.jens.facebook
+#desc: undefined
+#type: ipad
+#guid: 5128cd17-4ba3-471f-bb75-d510e209ad67
