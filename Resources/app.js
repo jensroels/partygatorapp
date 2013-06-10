@@ -5,6 +5,7 @@ Ti.include('facebook.js');
 var xhr = Titanium.Network.createHTTPClient();
 var my_lat;
 var my_lng;	
+var annotationObject = [];
 
 var month=new Array();
 month[0]="JAN";
