@@ -158,7 +158,17 @@ startuurDetail.setText(startdatum.substr(11,5)+' - '+einddatum.substr(11,5));
 dagDetail.setText(startdatum.substr(8,2));
 maandDetail.setText(month[parseInt(startdatum.substr(5,2), 10)]);
 hometab.open(detailWindow,{animated:true});
+
+   routeButton.addEventListener('click',function(){
+		var eventlat = lat; // dit is de destination 
+		var eventlng = long;
+		var str = 'http://maps.apple.com/?daddr='+ eventlat + ',' + eventlng +'&saddr='+my_lat+ ',' +my_lng;		 
+		//Ti.API.info("string for--->"+str);		 
+		Ti.Platform.openURL(str);
+   });
 }
+
+
 
 
 

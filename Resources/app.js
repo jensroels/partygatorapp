@@ -131,7 +131,7 @@ xhr.onload = function() {
 
 
 function getLocation(){
-Ti.Geolocation.purpose = "Recieve User Location";
+Ti.Geolocation.purpose = "Receive User Location";
 // Set Distance filter. This dictates how often an event fires based on the distance the device moves. This value is in meters.
 Titanium.Geolocation.distanceFilter = 5;
 //set the mapview with the current location
@@ -161,6 +161,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
 		    draggable: false
 		});
 		mapView.addAnnotation(myLoc);
+		mapViewDetail.addAnnotation(myLoc);
 		
 		//coordinaten opvangen bij slepen + events oproepen
 		/*mapView.addEventListener("pinchangedragstate", function(e) {

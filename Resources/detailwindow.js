@@ -15,9 +15,18 @@ var mapViewDetail = Titanium.Map.createView({
 	height:230,
 	width:"100%",
 	mapType: Titanium.Map.STANDARD_TYPE,
-	userLocation:true,
+	userLocation:false
 })
 
+var routeButton = Titanium.UI.createButton({
+   width:100,
+   title: 'route',
+   backgroundColor: '#ef4e4e',
+   color: '#ef4e4e',
+   height:"10%",
+   top: 330,
+   left:100
+   });
 
 var dateViewDetail = Titanium.UI.createView({
    	backgroundColor:"#3a4a58",
@@ -115,8 +124,11 @@ var dateViewDetail = Titanium.UI.createView({
    rowDetail.add(dateViewDetail);
    
    detailWindow.add(rowDetail);
+   
+   detailWindow.add(routeButton);
 
 
 detailWindow.add(mapViewDetail);
+
 
 
