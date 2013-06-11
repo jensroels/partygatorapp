@@ -186,5 +186,10 @@ hometab.open(detailWindow,{animated:true});
 		//Ti.API.info("string for--->"+str);		 
 		Ti.Platform.openURL(str);
    });
+   
+      mylocButtonDetail.addEventListener('click', function(event){
+		mapViewDetail.selectAnnotation(myLoc);
+		mapViewDetail.setLocation(region);
+   });
 
 }

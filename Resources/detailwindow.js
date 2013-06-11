@@ -28,14 +28,22 @@ var mapViewDetail = Titanium.Map.createView({
 })
 
 var routeButton = Titanium.UI.createButton({
-   width:50,
-   height:50,
+   width:44,
+   height:44,
    backgroundImage:"/images/routebutton.png",
    backgroundSelectedImage:"/images/routebutton.png",
-   top: 170,
-   left:260
-   });
-   
+   top: 120,
+   left:278
+});
+
+var mylocButtonDetail = Titanium.UI.createButton({
+	width: 44,
+	height: 44,
+	backgroundImage:"/images/mylocButton.png",
+	backgroundSelectedImage:"/images/mylocButton.png",
+	top: 175,
+	left: 278
+});
 
 
 var dateViewDetail = Titanium.UI.createView({
@@ -149,5 +157,6 @@ var dateViewDetail = Titanium.UI.createView({
 scrollView.add(mapViewDetail);
 
    scrollView.add(routeButton);
+   scrollView.add(mylocButtonDetail);
    
    detailWindow.add(scrollView);

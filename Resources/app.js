@@ -120,6 +120,14 @@ var periodeLabel = Titanium.UI.createLabel({
 	textAlign:"center"
 })
 
+var mylocButton = Titanium.UI.createButton({
+	width: 44,
+	height: 44,
+	backgroundImage:"/images/mylocButton.png",
+	backgroundSelectedImage:"/images/mylocButton.png",
+	top: 115,
+	left: 278
+});
 
 topNavBar.add(periodeLabel);
 
@@ -129,6 +137,7 @@ homeWindow.add(topNavBar);
 homeWindow.add(mapView);
 homeWindow.add(prevButton);
 homeWindow.add(nextButton);
+mapView.add(mylocButton);
 
 
 function emptyAllEntrees(){
@@ -179,6 +188,11 @@ default:
 }
 	
 })
+
+mylocButton.addEventListener('click', function(event){
+	mapView.selectAnnotation(myLoc);
+	mapView.setLocation(region);
+});
 
 
 if(!Titanium.App.Properties.hasProperty("firstrun")){
@@ -344,8 +358,8 @@ Titanium.Geolocation.getCurrentPosition(function(e){
 		myLoc  = Ti.Map.createAnnotation({
 		    latitude: my_lat,
 		    longitude: my_lng,
-		    title:"Current location",
-		    subtitle:'Drag me around, soon!',
+		    title:"You are here",
+		    subtitle:"Unless you're in the matrix",
 		    animate:false,
 		    image: "images/pin_zwart.png",
 		    myId: 1,
