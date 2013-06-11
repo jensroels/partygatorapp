@@ -60,7 +60,7 @@ extern "C" {
 	#define KMETHOD_DEBUG MEMORY_DEBUG
 #endif
 
-// in simulator we redefine to format for facebook Developer console
+// in simulator we redefine to format for Partygator Developer console
 
 
 #define TI_INLINE static __inline__
@@ -296,14 +296,14 @@ void TiExceptionThrowWithNameAndReason(NSString * exceptionName, NSString * mess
 #define DEFINE_EXCEPTIONS \
 - (void) throwException:(NSString *) reason subreason:(NSString*)subreason location:(NSString *)location\
 {\
-	NSString * exceptionName = [@"org.facebook." stringByAppendingString:NSStringFromClass([self class])];\
+	NSString * exceptionName = [@"org.partygator." stringByAppendingString:NSStringFromClass([self class])];\
 	NSString * message = [NSString stringWithFormat:@"%@. %@ %@",reason,(subreason!=nil?subreason:@""),(location!=nil?location:@"")];\
 	TiExceptionThrowWithNameAndReason(exceptionName,message);\
 }\
 \
 + (void) throwException:(NSString *) reason subreason:(NSString*)subreason location:(NSString *)location\
 {\
-	NSString * exceptionName = @"org.facebook";\
+	NSString * exceptionName = @"org.partygator";\
 	NSString * message = [NSString stringWithFormat:@"%@. %@ %@",reason,(subreason!=nil?subreason:@""),(location!=nil?location:@"")];\
 	TiExceptionThrowWithNameAndReason(exceptionName,message);\
 }\
@@ -404,28 +404,28 @@ DebugLog(@"[WARN] Ti%@.%@ DEPRECATED in %@, in favor of %@.",@"tanium",api,in,ne
 
  //MUST BE NEGATIVE, as it inhabits the same space as UIBarButtonSystemItem
 enum {
-	UIfacebookNativeItemNone = -1, 
-	UIfacebookNativeItemSpinner = -2,
-	UIfacebookNativeItemProgressBar = -3,
+	UIPartygatorNativeItemNone = -1, 
+	UIPartygatorNativeItemSpinner = -2,
+	UIPartygatorNativeItemProgressBar = -3,
 	
-	UIfacebookNativeItemSlider = -4,
-	UIfacebookNativeItemSwitch = -5,
-	UIfacebookNativeItemMultiButton = -6,
-	UIfacebookNativeItemSegmented = -7,
+	UIPartygatorNativeItemSlider = -4,
+	UIPartygatorNativeItemSwitch = -5,
+	UIPartygatorNativeItemMultiButton = -6,
+	UIPartygatorNativeItemSegmented = -7,
 	
-	UIfacebookNativeItemTextView = -8,
-	UIfacebookNativeItemTextField = -9,
-	UIfacebookNativeItemSearchBar = -10,
+	UIPartygatorNativeItemTextView = -8,
+	UIPartygatorNativeItemTextField = -9,
+	UIPartygatorNativeItemSearchBar = -10,
 	
-	UIfacebookNativeItemPicker = -11,
-	UIfacebookNativeItemDatePicker = -12,
+	UIPartygatorNativeItemPicker = -11,
+	UIPartygatorNativeItemDatePicker = -12,
 	
-	UIfacebookNativeItemInfoLight = -13,
-	UIfacebookNativeItemInfoDark = -14,
+	UIPartygatorNativeItemInfoLight = -13,
+	UIPartygatorNativeItemInfoDark = -14,
 	
-	UIfacebookNativeItemDisclosure = -15,
+	UIPartygatorNativeItemDisclosure = -15,
 	
-	UIfacebookNativeItemContactAdd = -16
+	UIPartygatorNativeItemContactAdd = -16
 };
 
 
@@ -592,7 +592,7 @@ void incrementKrollCounter();
 void decrementKrollCounter();
     
 /**
- *	TiThreadPerformOnMainThread should replace all facebook instances of
+ *	TiThreadPerformOnMainThread should replace all Partygator instances of
  *	performSelectorOnMainThread, ESPECIALLY if wait is to be yes. That way,
  *	exceptional-case main thread activities can process them outside of the
  *	standard event loop.

@@ -14,7 +14,7 @@
 #import "TiViewController.h"
 
 /**
- facebook orientation flags.
+ Partygator orientation flags.
  */
 typedef enum
 {

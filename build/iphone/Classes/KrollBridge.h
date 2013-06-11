@@ -19,9 +19,9 @@
 
 #ifdef KROLL_COVERAGE
 # import "KrollCoverage.h"
-@interface facebookObject : KrollCoverageObject {
+@interface PartygatorObject : KrollCoverageObject {
 #else
-@interface facebookObject : KrollObject {
+@interface PartygatorObject : KrollObject {
 #endif
 @private
 	NSMutableDictionary *modules;
@@ -35,7 +35,7 @@
 -(TiModule*)moduleNamed:(NSString*)name context:(id<TiEvaluator>)context;
 @end
 
-extern NSString * facebook$ModuleRequireFormat;
+extern NSString * Partygator$ModuleRequireFormat;
 
 @interface KrollBridge : Bridge<TiEvaluator,KrollDelegate> {
 @private
@@ -44,7 +44,7 @@ extern NSString * facebook$ModuleRequireFormat;
 	KrollContext *context;
 	NSDictionary *preload;
 	NSMutableDictionary *modules;
-	facebookObject *_facebook;
+	PartygatorObject *_partygator;
     KrollObject* console;
 	BOOL shutdown;
     BOOL evaluationError;

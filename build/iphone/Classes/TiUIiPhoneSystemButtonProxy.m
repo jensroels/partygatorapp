@@ -34,12 +34,12 @@ MAKE_SYSTEM_PROP(DONE,UIBarButtonSystemItemDone);
 MAKE_SYSTEM_PROP(FLEXIBLE_SPACE,UIBarButtonSystemItemFlexibleSpace);
 MAKE_SYSTEM_PROP(FIXED_SPACE,UIBarButtonSystemItemFixedSpace);
 
-MAKE_SYSTEM_PROP(ACTIVITY,UIfacebookNativeItemSpinner);
-MAKE_SYSTEM_PROP(SPINNER,UIfacebookNativeItemSpinner);
-MAKE_SYSTEM_PROP(INFO_LIGHT,UIfacebookNativeItemInfoLight);
-MAKE_SYSTEM_PROP(INFO_DARK,UIfacebookNativeItemInfoDark);
-MAKE_SYSTEM_PROP(DISCLOSURE,UIfacebookNativeItemDisclosure);
-MAKE_SYSTEM_PROP(CONTACT_ADD,UIfacebookNativeItemContactAdd);
+MAKE_SYSTEM_PROP(ACTIVITY,UIPartygatorNativeItemSpinner);
+MAKE_SYSTEM_PROP(SPINNER,UIPartygatorNativeItemSpinner);
+MAKE_SYSTEM_PROP(INFO_LIGHT,UIPartygatorNativeItemInfoLight);
+MAKE_SYSTEM_PROP(INFO_DARK,UIPartygatorNativeItemInfoDark);
+MAKE_SYSTEM_PROP(DISCLOSURE,UIPartygatorNativeItemDisclosure);
+MAKE_SYSTEM_PROP(CONTACT_ADD,UIPartygatorNativeItemContactAdd);
 
 
 @end

@@ -63,10 +63,10 @@
 {
 	switch(styleCache)
 	{
-		case UIfacebookNativeItemInfoLight:
-		case UIfacebookNativeItemInfoDark:
+		case UIPartygatorNativeItemInfoLight:
+		case UIPartygatorNativeItemInfoDark:
 			return 18;
-		case UIfacebookNativeItemDisclosure:
+		case UIPartygatorNativeItemDisclosure:
 			return 29;
 		default: {
 			break;
@@ -79,10 +79,10 @@
 {
 	switch(styleCache)
 	{
-		case UIfacebookNativeItemInfoLight:
-		case UIfacebookNativeItemInfoDark:
+		case UIPartygatorNativeItemInfoLight:
+		case UIPartygatorNativeItemInfoDark:
 			return 19;
-		case UIfacebookNativeItemDisclosure:
+		case UIPartygatorNativeItemDisclosure:
 			return 31;
 		default: {
 			break;
@@ -96,9 +96,9 @@
 {
 	switch (styleCache)
 	{
-		case UIfacebookNativeItemInfoLight:
-		case UIfacebookNativeItemInfoDark:
-		case UIfacebookNativeItemDisclosure:
+		case UIPartygatorNativeItemInfoLight:
+		case UIPartygatorNativeItemInfoDark:
+		case UIPartygatorNativeItemDisclosure:
 			return suggestedResizing & ~(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 		default: {
 			break;

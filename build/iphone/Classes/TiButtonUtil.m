@@ -16,23 +16,23 @@
 {
 	switch (type)
 	{
-		case UIfacebookNativeItemInfoLight:
+		case UIPartygatorNativeItemInfoLight:
 		{
 			return [UIButton buttonWithType:UIButtonTypeInfoLight];
 		}
-		case UIfacebookNativeItemInfoDark:
+		case UIPartygatorNativeItemInfoDark:
 		{
 			return [UIButton buttonWithType:UIButtonTypeInfoDark];
 		}
-		case UIfacebookNativeItemDisclosure:
+		case UIPartygatorNativeItemDisclosure:
 		{
 			return [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		}
-		case UIfacebookNativeItemContactAdd:
+		case UIPartygatorNativeItemContactAdd:
 		{
 			return [UIButton buttonWithType:UIButtonTypeContactAdd];
 		}
-		case UIfacebookNativeItemSpinner:
+		case UIPartygatorNativeItemSpinner:
 		{
 			UIActivityIndicatorView *button = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
 			[button startAnimating];

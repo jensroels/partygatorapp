@@ -442,7 +442,7 @@ DEFINE_EXCEPTIONS
 -(void)loadDefaultImage:(CGSize)imageSize
 {
     // use a placeholder image - which the dev can specify with the
-    // defaultImage property or we'll provide the facebook stock one
+    // defaultImage property or we'll provide the Partygator stock one
     // if not specified
     NSURL *defURL = [TiUtils toURL:[self.proxy valueForKey:@"defaultImage"] proxy:self.proxy];
     

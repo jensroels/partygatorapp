@@ -1,5 +1,5 @@
 //
-// these are dynamic defines used by the facebook JS compiler
+// these are dynamic defines used by the Partygator JS compiler
 //
 // when compiling in a real project these are dynamically generated
 // these defined here mainly for when running inside xcode

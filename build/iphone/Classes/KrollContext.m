@@ -865,7 +865,7 @@ static TiValueRef StringFormatDecimalCallback (TiContextRef jsContext, TiObjectR
 {
 	if (stopped!=YES)
 	{
-		@throw [NSException exceptionWithName:@"org.facebook.kroll" 
+		@throw [NSException exceptionWithName:@"org.partygator.kroll" 
 									   reason:@"already started"
 									 userInfo:nil];
 	}

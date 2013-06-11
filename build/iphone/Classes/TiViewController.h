@@ -73,7 +73,7 @@
 
 
 /**
- The base class for facebook view controllers.
+ The base class for Partygator view controllers.
  */
 @interface TiViewController : UIViewController
 {

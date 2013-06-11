@@ -7,8 +7,8 @@
  * WARNING: This is generated code. Modify at your own risk and without support.
  */
 
-#ifndef facebook_ThirdpartyNS_h
-#define facebook_ThirdpartyNS_h
+#ifndef Partygator_ThirdpartyNS_h
+#define Partygator_ThirdpartyNS_h
 
 #ifndef __TI_NAMESPACE_PREFIX_
 #define __TI_NAMESPACE_PREFIX_	TI

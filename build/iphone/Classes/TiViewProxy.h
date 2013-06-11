@@ -16,7 +16,7 @@
  */
 @protocol TiKeyboardFocusableView
 
-#pragma mark Public facebook APIs.
+#pragma mark Public Partygator APIs.
 
 /**
  Tells the view to focus.

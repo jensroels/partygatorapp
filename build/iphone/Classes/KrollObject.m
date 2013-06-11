@@ -302,10 +302,10 @@ bool KrollSetProperty(TiContextRef jsContext, TiObjectRef object, TiStringRef pr
 
 // forward declare these
 
-//@interface facebookObject : NSObject
+//@interface PartygatorObject : NSObject
 //@end
 
-@interface facebookObject (Private)
+@interface PartygatorObject (Private)
 -(NSDictionary*)modules;
 @end
 
@@ -323,9 +323,9 @@ void KrollPropertyNames(TiContextRef ctx, TiObjectRef object, TiPropertyNameAccu
 	{
 		id target = [o target];
 		
-		if ([o isKindOfClass:[facebookObject class]])
+		if ([o isKindOfClass:[PartygatorObject class]])
 		{
-			for (NSString *key in [[(facebookObject*)o modules] allKeys])
+			for (NSString *key in [[(PartygatorObject*)o modules] allKeys])
 			{
 				TiStringRef value = TiStringCreateWithUTF8CString([key UTF8String]);
 				TiPropertyNameAccumulatorAddName(propertyNames,value);

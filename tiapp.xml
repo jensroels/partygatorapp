@@ -8,8 +8,8 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <sdk-version>3.0.0.GA</sdk-version>
-    <id>be.jens.facebook</id>
-    <name>facebook</name>
+    <id>be.jens.Partygator</id>
+    <name>Party gator</name>
     <version>1.0</version>
     <publisher>jensroels</publisher>
     <url>http://jensroels.be</url>

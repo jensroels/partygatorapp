@@ -267,7 +267,7 @@ TiValueRef KrollCallAsNamedFunction(TiContextRef jsContext, TiObjectRef func, Ti
 	NSMethodSignature *methodSignature = [target methodSignatureForSelector:selector];
 	if (methodSignature==nil)
 	{
-		@throw [NSException exceptionWithName:@"org.facebook.kroll" reason:[NSString stringWithFormat:@"invalid method '%@'",NSStringFromSelector(selector)] userInfo:nil];
+		@throw [NSException exceptionWithName:@"org.partygator.kroll" reason:[NSString stringWithFormat:@"invalid method '%@'",NSStringFromSelector(selector)] userInfo:nil];
 	}
 	IMP methodFunction = [target methodForSelector:selector];
 	id arg1=nil;

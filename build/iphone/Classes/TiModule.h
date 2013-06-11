@@ -12,7 +12,7 @@
 @class TiHost;
 
 /**
- The base class for all facebook modules
+ The base class for all Partygator modules
  */
 @interface TiModule : TiProxy 
 {
@@ -50,30 +50,30 @@
 // lifecycle
 
 /**
- facebook Platform calls this method on startup.
+ Partygator Platform calls this method on startup.
  */
 -(void)startup;
 
 /**
- facebook Platform calls this method on shutdown.
+ Partygator Platform calls this method on shutdown.
  @param sender The sender of the event.
  */
 -(void)shutdown:(id)sender;
 
 /**
- facebook Platform calls this method on suspend.
+ Partygator Platform calls this method on suspend.
  @param sender The sender of the event.
  */
 -(void)suspend:(id)sender;
 
 /**
- facebook Platform calls this method on entering background.
+ Partygator Platform calls this method on entering background.
  @param sender The sender of the event.
  */
 -(void)paused:(id)sender;
 
 /**
- facebook Platform calls this method on resume.
+ Partygator Platform calls this method on resume.
  @param sender The sender of the event.
  */
 -(void)resume:(id)sender;
