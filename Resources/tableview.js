@@ -5,7 +5,7 @@
 var tableView = Titanium.UI.createTableView({
 	top:214,
 	backgroundColor:"#2e3945",
-	height:419,
+	height:250,
 	separatorColor:'#575f67',
 	data:data
 })

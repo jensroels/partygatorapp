@@ -122,8 +122,9 @@ var dateViewDetail = Titanium.UI.createView({
    var descriptionLabel = Titanium.UI.createLabel({
    	color:"#1c1f23",
    	text:"",
-   	top:310,
-   	width:"100%"
+   	top:320,
+   	left: 5,
+   	width:310
    })
    
    	

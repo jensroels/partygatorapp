@@ -55,6 +55,7 @@ var overlayImage = Titanium.UI.createImageView({
 demoWindow.add(overlayImage);
 
 overlayImage.addEventListener("click",function(e){
+	
 	runPartyGator();
 })
 
@@ -189,13 +190,20 @@ if(!Titanium.App.Properties.hasProperty("firstrun")){
 	runPartyGator();
 }
 
+
+    var rowLoader = Titanium.UI.createTableViewRow({
+   	height:80,
+   	classname:"tableRow"
+   })
+   
+
 function runPartyGator(){
 tabGroup.open();
 homeWindow.add(activityIndicator);
 activityIndicator.show();
 getLocation();
 Ti.Gesture.addEventListener("shake",function(e){
-	getEvents(7);
+getEvents(7);
 })		
 }
 
@@ -266,12 +274,15 @@ function addAnnotationsToMap(jsonObject){
    }
    
    	//als er geklikt wordt op de annotations checken of het een pin is en dan scrollen naar de lijst
+    /*
      mapView.addEventListener("click",function(e){
 	if(e.clicksource=="pin"){;
 	Ti.API.info(e.index);
 	tableView.scrollToIndex( e.index-1, {animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.TOP});
 	}
-})
+	
+})*/
+
 }
 activityIndicator.hide()
    //tableView.setData(data);
@@ -282,22 +293,30 @@ activityIndicator.hide()
 xhr.onload = function() {
    jsonObjectToday = JSON.parse(this.responseText);
    homeWindow.add(tableView);
+   if(periodeLabel.getText()=="TODAY"){
   addAnnotationsToMap(jsonObjectToday);
+  }
  }
  
  xhrWeek.onload = function() {
   jsonObjectWeek = JSON.parse(this.responseText);
-  //addAnnotationsToMap(jsonObjectWeek);
+   if(periodeLabel.getText()=="THIS WEEK"){
+  addAnnotationsToMap(jsonObjectWeek);
+  }
  }
  
   xhrMaand.onload = function() {
   jsonObjectMaand = JSON.parse(this.responseText);
   //addAnnotationsToMap(jsonObjectWeek);
+     if(periodeLabel.getText()=="THIS MONTH"){
+  addAnnotationsToMap(jsonObjectMaand);
+  }
  }
 
 
 
 function getLocation(){
+if (Ti.Geolocation.locationServicesEnabled) {
 Ti.Geolocation.purpose = "Recieve User Location";
 // Set Distance filter. This dictates how often an event fires based on the distance the device moves. This value is in meters.
 Titanium.Geolocation.distanceFilter = 5;
@@ -305,6 +324,12 @@ Titanium.Geolocation.distanceFilter = 5;
 //Get the current position and set it to the mapview
 // vie latitude delte en longitute delta het zoom gehalte instellen hoe groter het getal hoe verder uit gezoemt
 Titanium.Geolocation.getCurrentPosition(function(e){
+	 if (e.error)
+    {
+        alert('We need your location, pls configure your location settings');
+        Ti.Geolocation.restart();
+        return;
+    }
        region={
             latitude: e.coords.latitude,
             longitude: e.coords.longitude,
@@ -342,5 +367,8 @@ Titanium.Geolocation.getCurrentPosition(function(e){
 		*/
 		getEvents(7);
 });
+}else{
+	alert("To use this app you have to eneable your location services");
+}
 
 }
