@@ -15,6 +15,7 @@ var my_lat;
 var my_lng;	
 var annotationObject = [];
 var tabGroup = Titanium.UI.createTabGroup();
+var myLoc;
 
 var month=new Array();
 month[0]="JAN";
@@ -37,6 +38,21 @@ var homeWindow = Titanium.UI.createWindow({
 	tabBarHidden:true,
 	navBarHidden: true
 });
+
+
+var demoWindow = Titanium.UI.createWindow({
+	backgroundColor: "#2e3945",
+	tabBarHidden:true,
+	navBarHidden: true
+});
+
+var overlayImage = Titanium.UI.createImageView({
+	 image:'/images/overlay.jpg',
+	 top:0,
+	 left:0,
+})
+
+demoWindow.add(overlayImage);
 
 var hometab = Titanium.UI.createTab({
 	window:homeWindow,
@@ -62,6 +78,8 @@ var prevButton = Titanium.UI.createButton({
 	width:50,
 	height:44
 })
+
+
 
 
 
@@ -112,6 +130,7 @@ function emptyAllEntrees(){
 	tableView.data = data;
 	annotationObject = [];
 	mapView.removeAllAnnotations();	
+	mapView.addAnnotation(myLoc);
 }
 
 nextButton.addEventListener("click",function(e){
@@ -159,7 +178,8 @@ default:
 
 if(!Titanium.App.Properties.hasProperty("firstrun")){
 	Titanium.App.Properties.setBool('firstrun',1);
-	alert("first run");
+	//alert("first run");
+	demoWindow.open();
 }else{
 	//alert("not first run");
 	runPartyGator();
@@ -196,7 +216,8 @@ function getEvents(periodeDagen){
     annotationObject = [];*/
 
 	//xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
-	xhr.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/2");
+	activityIndicator.show();
+	xhr.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/1");
 	xhr.send();
 	
 	
@@ -211,6 +232,11 @@ function getEvents(periodeDagen){
 
 function addAnnotationsToMap(jsonObject){
 	emptyAllEntrees();
+	if(jsonObject.events.length<1){
+		alert('leeg jongeyuuu');
+		tableView.setVisible(false);
+	}else{
+		tableView.setVisible(true);
 	for(var i = 0;i<jsonObject.events.length;i++){
    var title = jsonObject.events[i].name;
    annotationObject[i] = Titanium.Map.createAnnotation({
@@ -225,15 +251,19 @@ function addAnnotationsToMap(jsonObject){
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
    
    }
-   activityIndicator.hide()
+   
    	//als er geklikt wordt op de annotations checken of het een pin is en dan scrollen naar de lijst
      mapView.addEventListener("click",function(e){
 	if(e.clicksource=="pin"){;
+	Ti.API.info(e.index);
 	tableView.scrollToIndex( e.index-1, {animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.TOP});
 	}
 })
+}
+activityIndicator.hide()
    //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
+   mapView.setLocation(region);
 }
 
 xhr.onload = function() {
@@ -271,30 +301,32 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         };
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
-		mapView.setLocation(region);
 		mapViewDetail.setLocation(region);
 		
-		var myLoc = Titanium.Map.createAnnotation({
-		    latitude: e.coords.latitude,
-		    longitude: e.coords.longitude,
+		myLoc  = Ti.Map.createAnnotation({
+		    latitude: my_lat,
+		    longitude: my_lng,
 		    title:"Current location",
 		    subtitle:'Drag me around, soon!',
-		    animate:true,
-		    image: "images/pin_black.png",
+		    animate:false,
+		    image: "images/pin_zwart.png",
 		    myId: 1,
-		    draggable: false
+		    draggable: true
 		});
-		mapView.addAnnotation(myLoc);
-		
+	    mapView.setLocation(region);
+
+		//Onmogelijk te doen volgens mij via deze manier. De functie mag pas opgeroepen worden als de pointer wordt losgelaten en dat event bestaat niet via aan annotation
+
 		//coordinaten opvangen bij slepen + events oproepen
-		/*mapView.addEventListener("pinchangedragstate", function(e) {
+		/*
+		mapView.addEventListener("pinchangedragstate", function(e) {
  			Ti.API.info("New latitude: " + e.annotation.latitude);
   			Ti.API.info("New longitude: " + e.annotation.longitude);
   			my_lat=e.annotation.latitude;
   			my_lng=e.annotation.longitude;
   			getEvents();
-		});*/
-		
+		});
+		*/
 		getEvents(7);
 });
 

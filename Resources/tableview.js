@@ -137,7 +137,7 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
    
    row.addEventListener('click', function(event){
 		//mapView.selectAnnotation(e.annotationObject);
-		Ti.API.info(event.index);
+		//Ti.API.info(event.index);
 		mapView.selectAnnotation(annotationObject[event.index]);
    });
 }
