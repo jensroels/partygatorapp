@@ -60,6 +60,7 @@
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>appicon.png</string>
+		<string>appicon@2x.png</string>
 	</array>
 </dict>
 </plist>

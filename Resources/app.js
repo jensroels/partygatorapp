@@ -3,6 +3,7 @@ var jsonObjectToday;
 var jsonObjectWeek;
 var jsonObjectMaand;
 var data = [];
+var error = [];
 var region;
 var tabGroup = Titanium.UI.createTabGroup();
 Ti.include('facebook.js');
@@ -40,24 +41,112 @@ var homeWindow = Titanium.UI.createWindow({
 });
 
 
+var noLocationWindow = Titanium.UI.createWindow({
+	backgroundColor: "#2e3945",
+	tabBarHidden:true,
+	navBarHidden:true
+})
+
+var noLocationImage = Titanium.UI.createImageView({
+	image:'images/locationFeedback.png'
+})
+
+
+var noEventsImage = Titanium.UI.createImageView({
+	image:'images/noEventFeedback.png',
+	top:214
+})
+
+
+   var rowError = Titanium.UI.createTableViewRow({
+   	height:80,
+   	left:10,
+   	classname:"tableRowError"
+   })
+   
+   
+   	var errorMessage= Titanium.UI.createLabel({
+   	text:"We didn't found any events, try another period",
+   	color:'#d0d1d3',
+   	font: { fontSize:12, fontWeight:'bold'},
+   	width:272,
+   	top:15,
+   	left:5,
+   	textAlign:'left'
+   });
+   
+   rowError.add(errorMessage);
+   error.push(rowError);
+   
+
+
+noLocationWindow.add(noLocationImage);
+
+var startPartyGator = Ti.UI.createButton({
+	title:'start party gator',
+	top:380
+})
+
+noLocationWindow.add(startPartyGator);
+
+startPartyGator.addEventListener("click",function(e){
+	Ti.Geolocation.purpose = "Recieve User Location";
+	// Set Distance filter. This dictates how often an event fires based on the distance the device moves. This value is in meters.
+	Titanium.Geolocation.distanceFilter = 5;
+	//set the mapview with the current location
+	//Get the current position and set it to the mapview
+	// vie latitude delte en longitute delta het zoom gehalte instellen hoe groter het getal hoe verder uit gezoemt
+	Titanium.Geolocation.getCurrentPosition(function(e){
+	 if (e.error){
+		alert("pls set up your location services");
+	}else{
+		noLocationWindow.close();
+		runPartyGator();
+	}
+	
+	})//functie
+	
+})//event listener
+
+
+
 var demoWindow = Titanium.UI.createWindow({
 	backgroundColor: "#2e3945",
 	tabBarHidden:true,
 	navBarHidden: true
 });
 
-var overlayImage = Titanium.UI.createImageView({
-	 image:'/images/overlay.jpg',
-	 top:0,
-	 left:0,
-})
+var view1 = Ti.UI.createView({ backgroundColor:'#000000' });
+var view2 = Ti.UI.createView({ backgroundColor:'#000000' });
+var view3 = Ti.UI.createView({ backgroundColor:'#000000' });
+var view4 = Ti.UI.createView({ backgroundColor:'#000000' });
+var view5 = Ti.UI.createView({ backgroundColor:'#000000' });
 
-demoWindow.add(overlayImage);
+var demo1 = Ti.UI.createImageView({image:'images/tutorial1.png'});
+var demo2 = Ti.UI.createImageView({image:'images/tutorial2.png'});
+var demo3 = Ti.UI.createImageView({image:'images/tutorial3.png'});
+var demo4 = Ti.UI.createImageView({image:'images/tutorial4.png'});
+var demo5 = Ti.UI.createImageView({image:'images/tutorial5.png'});
 
-overlayImage.addEventListener("click",function(e){
+view1.add(demo1);
+view2.add(demo2);
+view3.add(demo3);
+view4.add(demo4);
+view5.add(demo5);
+
+
+var scrollableView = Ti.UI.createScrollableView({
+  views:[view1,view2,view3,view4,view5],
+  showPagingControl:true
+});
+demoWindow.add(scrollableView);
+
+
+view5.addEventListener("click",function(e){
 	
 	runPartyGator();
 })
+
 
 var hometab = Titanium.UI.createTab({
 	window:homeWindow,
@@ -138,7 +227,6 @@ homeWindow.add(mapView);
 homeWindow.add(prevButton);
 homeWindow.add(nextButton);
 mapView.add(mylocButton);
-
 
 function emptyAllEntrees(){
 	tableView.data = data;
@@ -261,9 +349,11 @@ function getEvents(periodeDagen){
 
 function addAnnotationsToMap(jsonObject){
 	emptyAllEntrees();
+	
 	if(jsonObject.events.length<1){
-		alert('leeg jongeyuuu');
-		tableView.setVisible(false);
+		//alert('leeg jongeyuuu');
+		tableView.appendRow(rowError);
+		//tableView.setVisible(false);
 	}else{
 		tableView.setVisible(true);
 	for(var i = 0;i<jsonObject.events.length;i++){
@@ -272,7 +362,7 @@ function addAnnotationsToMap(jsonObject){
    	latitude:jsonObject.events[i].latitude,
    	longitude:jsonObject.events[i].longitude,
    	id:i,
-   	rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+   	//rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
    	title:title,
    	image: "images/pin_red.png",
    	animate:true
@@ -285,7 +375,19 @@ function addAnnotationsToMap(jsonObject){
    }
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude,desc);
    
+   /*
+   	mapView.addEventListener("click",function(e){
+   	if (e.clicksource == 'rightButton') {     
+   	openDetailWindow(title, jsonObject.events[i].start_time.toString(), jsonObject.events[i].location, jsonObject.events[i].end_time, jsonObject.events[i].longitude, jsonObject.events[i].latitude, desc);	
+   	return false;
+   	}
+   })
+   */
    }
+   
+   
+ 
+   
    
    	//als er geklikt wordt op de annotations checken of het een pin is en dan scrollen naar de lijst
     /*
@@ -340,10 +442,10 @@ Titanium.Geolocation.distanceFilter = 5;
 Titanium.Geolocation.getCurrentPosition(function(e){
 	 if (e.error)
     {
-        alert('We need your location, pls configure your location settings');
+        //alert('We need your location, pls configure your location settings');
         Ti.Geolocation.restart();
-        return;
-    }
+       noLocationWindow.open();
+    }else{
        region={
             latitude: e.coords.latitude,
             longitude: e.coords.longitude,
@@ -380,9 +482,10 @@ Titanium.Geolocation.getCurrentPosition(function(e){
 		});
 		*/
 		getEvents(7);
+	}
 });
 }else{
-	alert("To use this app you have to eneable your location services");
+	noLocationWindow.open();
 }
 
 }
