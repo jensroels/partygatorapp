@@ -1,4 +1,7 @@
 var jsonObject;
+var jsonObjectToday;
+var jsonObjectWeek;
+var jsonObjectMaand;
 var data = [];
 var region;
 var tabGroup = Titanium.UI.createTabGroup();
@@ -6,10 +9,13 @@ Ti.include('facebook.js');
 Ti.include('tableview.js');
 Ti.include('detailwindow.js');
 var xhr = Titanium.Network.createHTTPClient();
+var xhrWeek = Titanium.Network.createHTTPClient();
+var xhrMaand = Titanium.Network.createHTTPClient();
 var my_lat;
 var my_lng;	
 var annotationObject = [];
 var tabGroup = Titanium.UI.createTabGroup();
+var myLoc;
 
 var month=new Array();
 month[0]="JAN";
@@ -28,16 +34,54 @@ month[11]="DEC";
 
 //het home screen 
 var homeWindow = Titanium.UI.createWindow({
-	backgroundColor: "#ffffff",
+	backgroundColor: "#2e3945",
 	tabBarHidden:true,
 	navBarHidden: true
 });
+
+
+var demoWindow = Titanium.UI.createWindow({
+	backgroundColor: "#2e3945",
+	tabBarHidden:true,
+	navBarHidden: true
+});
+
+var overlayImage = Titanium.UI.createImageView({
+	 image:'/images/overlay.jpg',
+	 top:0,
+	 left:0,
+})
+
+demoWindow.add(overlayImage);
 
 var hometab = Titanium.UI.createTab({
 	window:homeWindow,
 	tabBarHidden:true,
 	navBarHidden: true
 })
+
+
+
+var nextButton = Titanium.UI.createButton({
+	top:0,
+	backgroundImage:"images/next_periode.png",
+	left:270,
+	width:50,
+	height:44
+})
+
+var prevButton = Titanium.UI.createButton({
+	top:0,
+	backgroundImage:"images/prev_periode.png",
+	left:0,
+	visible:false,
+	width:50,
+	height:44
+})
+
+
+
+
 
 tabGroup.addTab(hometab);
 
@@ -62,7 +106,7 @@ var topNavBar = Titanium.UI.createView({
 })
 
 var periodeLabel = Titanium.UI.createLabel({
-	text:"PARTYGATOR",
+	text:"TODAY",
 	font: { fontSize: 18, font: "Helvetica Neue", fontWeight:"bold" },
 	top: 7,
 	height:30,
@@ -74,12 +118,84 @@ var periodeLabel = Titanium.UI.createLabel({
 
 topNavBar.add(periodeLabel);
 
-getLocation();	
+
 
 homeWindow.add(topNavBar);
 homeWindow.add(mapView);
-//homeWindow.open();
+homeWindow.add(prevButton);
+homeWindow.add(nextButton);
+
+
+function emptyAllEntrees(){
+	tableView.data = data;
+	annotationObject = [];
+	mapView.removeAllAnnotations();	
+	mapView.addAnnotation(myLoc);
+}
+
+nextButton.addEventListener("click",function(e){
+	
+	switch (periodeLabel.getText()) {
+case 'TODAY':
+	prevButton.setVisible(true);
+    addAnnotationsToMap(jsonObjectWeek);
+	periodeLabel.setText("THIS WEEK");
+    break;
+case 'THIS WEEK':
+	nextButton.setVisible(false);
+    addAnnotationsToMap(jsonObjectMaand);
+	periodeLabel.setText("THIS MONTH");
+    break;
+default:
+    
+    break;
+}
+	
+})
+
+
+prevButton.addEventListener("click",function(e){
+	
+	switch (periodeLabel.getText()) {
+case 'THIS WEEK':
+	prevButton.setVisible(false);
+    addAnnotationsToMap(jsonObjectToday);
+	periodeLabel.setText("TODAY");
+	
+    break;
+case 'THIS MONTH':
+	nextButton.setVisible(true);
+    addAnnotationsToMap(jsonObjectWeek);
+	periodeLabel.setText("THIS WEEK");
+	
+    break;
+default:
+    break;
+}
+	
+})
+
+
+if(!Titanium.App.Properties.hasProperty("firstrun")){
+	Titanium.App.Properties.setBool('firstrun',1);
+	//alert("first run");
+	demoWindow.open();
+}else{
+	//alert("not first run");
+	runPartyGator();
+}
+
+function runPartyGator(){
 tabGroup.open();
+homeWindow.add(activityIndicator);
+activityIndicator.show();
+getLocation();
+Ti.Gesture.addEventListener("shake",function(e){
+	getEvents(7);
+})		
+}
+
+
 //checken of er internet is en het facebook login scherm tonen
 function checkonline(){
 	if(Titanium.Network.networkType != Titanium.Network.NETWORK_NONE)
@@ -94,24 +210,37 @@ function checkonline(){
 
 
 
-function getEvents(){
+function getEvents(periodeDagen){
 	if(checkonline()){
 	//annotations verwijderen als marker gedragged wordt
 	/*for (i=annotationObject.length-1;i>=0;i--) {
         mapView.removeAnnotation(annotationObject[i]);
     }
     annotationObject = [];*/
-	xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
+
+	//xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
+	activityIndicator.show();
+	xhr.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/1");
 	xhr.send();
+	
+	
+	xhrWeek.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/7");
+	xhrWeek.send();
+	
+	xhrMaand.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/30");
+	xhrMaand.send();
 	}
 }
 
 
-xhr.onload = function() {
-   jsonObject = JSON.parse(this.responseText);
-   homeWindow.add(tableView);
-   for(var i = 0;i<jsonObject.events.length;i++){
-   	
+function addAnnotationsToMap(jsonObject){
+	emptyAllEntrees();
+	if(jsonObject.events.length<1){
+		alert('leeg jongeyuuu');
+		tableView.setVisible(false);
+	}else{
+		tableView.setVisible(true);
+	for(var i = 0;i<jsonObject.events.length;i++){
    var title = jsonObject.events[i].name;
    annotationObject[i] = Titanium.Map.createAnnotation({
    	latitude:jsonObject.events[i].latitude,
@@ -123,15 +252,43 @@ xhr.onload = function() {
    	animate:true
    })
    addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
+   
    }
+   
+   	//als er geklikt wordt op de annotations checken of het een pin is en dan scrollen naar de lijst
+     mapView.addEventListener("click",function(e){
+	if(e.clicksource=="pin"){;
+	Ti.API.info(e.index);
+	tableView.scrollToIndex( e.index-1, {animated:true,position:Ti.UI.iPhone.TableViewScrollPosition.TOP});
+	}
+})
+}
+activityIndicator.hide()
    //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
-   
+   mapView.setLocation(region);
+}
+
+xhr.onload = function() {
+   jsonObjectToday = JSON.parse(this.responseText);
+   homeWindow.add(tableView);
+  addAnnotationsToMap(jsonObjectToday);
+ }
+ 
+ xhrWeek.onload = function() {
+  jsonObjectWeek = JSON.parse(this.responseText);
+  //addAnnotationsToMap(jsonObjectWeek);
+ }
+ 
+  xhrMaand.onload = function() {
+  jsonObjectMaand = JSON.parse(this.responseText);
+  //addAnnotationsToMap(jsonObjectWeek);
  }
 
 
+
 function getLocation(){
-Ti.Geolocation.purpose = "Receive User Location";
+Ti.Geolocation.purpose = "Recieve User Location";
 // Set Distance filter. This dictates how often an event fires based on the distance the device moves. This value is in meters.
 Titanium.Geolocation.distanceFilter = 5;
 //set the mapview with the current location
@@ -147,32 +304,33 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         };
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
-		mapView.setLocation(region);
 		mapViewDetail.setLocation(region);
 		
-		var myLoc = Titanium.Map.createAnnotation({
-		    latitude: e.coords.latitude,
-		    longitude: e.coords.longitude,
+		myLoc  = Ti.Map.createAnnotation({
+		    latitude: my_lat,
+		    longitude: my_lng,
 		    title:"Current location",
 		    subtitle:'Drag me around, soon!',
-		    animate:true,
-		    image: "images/pin_black.png",
+		    animate:false,
+		    image: "images/pin_zwart.png",
 		    myId: 1,
-		    draggable: false
+		    draggable: true
 		});
-		mapView.addAnnotation(myLoc);
-		mapViewDetail.addAnnotation(myLoc);
-		
+	    mapView.setLocation(region);
+
+		//Onmogelijk te doen volgens mij via deze manier. De functie mag pas opgeroepen worden als de pointer wordt losgelaten en dat event bestaat niet via aan annotation
+
 		//coordinaten opvangen bij slepen + events oproepen
-		/*mapView.addEventListener("pinchangedragstate", function(e) {
+		/*
+		mapView.addEventListener("pinchangedragstate", function(e) {
  			Ti.API.info("New latitude: " + e.annotation.latitude);
   			Ti.API.info("New longitude: " + e.annotation.longitude);
   			my_lat=e.annotation.latitude;
   			my_lng=e.annotation.longitude;
   			getEvents();
-		});*/
-		
-		getEvents();
+		});
+		*/
+		getEvents(7);
 });
 
 }

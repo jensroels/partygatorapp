@@ -1,13 +1,27 @@
+
 /**
  * @author Jens Roels
  */
 var tableView = Titanium.UI.createTableView({
 	top:214,
 	backgroundColor:"#2e3945",
-	height:"100%",
+	height:419,
 	separatorColor:'#575f67',
 	data:data
 })
+
+
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: '#ef4e4e',
+  font: {fontFamily:'Helvetica Neue', fontSize:26, fontWeight:'bold'},
+  style:Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+  top:280,
+  left:130,
+  height:50,
+  width:50
+});
+
+
 
 
 function addRow(titel,startdatum, locatie, einddatum, long, lat){
@@ -116,14 +130,16 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
 		//mapView.selectAnnotation(e.annotationObject);
 		//alert("test detail");
 		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat);
+		
    });
    
-   tableView.appendRow(row);
-   //data.push(row);
+  tableView.appendRow(row);
+  //data.push(row);
    
    
    row.addEventListener('click', function(event){
 		//mapView.selectAnnotation(e.annotationObject);
+		//Ti.API.info(event.index);
 		mapView.selectAnnotation(annotationObject[event.index]);
    });
 }
@@ -144,13 +160,14 @@ var marker = Ti.Map.createAnnotation({
     });
     mapViewDetail.addAnnotation(marker);	
 	mapViewDetail.selectAnnotation(marker);
+	mapViewDetail.addAnnotation(myLoc);
 titleDetail.setText(titel.substr(0,30));
    detailRegion={
             latitude: lat,
             longitude: long,
             animate:true,
-            latitudeDelta:0.01,
-            longitudeDelta:0.01, 
+            latitudeDelta:0.001,
+            longitudeDelta:0.001, 
         };
         mapViewDetail.setLocation(detailRegion);
 locationDetail.setText(locatie.toUpperCase().substr(0,30));
@@ -166,25 +183,5 @@ hometab.open(detailWindow,{animated:true});
 		//Ti.API.info("string for--->"+str);		 
 		Ti.Platform.openURL(str);
    });
+
 }
-
-
-
-
-
-//checken of de array bestaat, eventlistener op annotations en scrollen naar de bijhorende list - ERRORT
-   /*var clicktruefalse = 1;
-   mapView.addEventListener('click', function(event){
-	   if(typeof annotationObject === 'undefined'){
-	   	alert('array empty');
-	   }else if(annotationObject.length > 0){
-	   		var clicksource = event.annotationObject.id;
-	   		if(clicktruefalse == 1){
-	   			alert(clicksource);
-	   			tableView.scrollToIndex(clicksource);
-	   			clicktruefalse = 0;
-	   		}else if(event.clicksource != annotationObject){
-	   			clicktruefalse = 1;
-	   		}
-		}
-	});*/

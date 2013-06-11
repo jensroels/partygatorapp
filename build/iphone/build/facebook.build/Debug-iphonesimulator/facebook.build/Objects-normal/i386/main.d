@@ -1,2 +1,2 @@
 dependencies: \
-  /Users/geoffreyverhulst/Dropbox/partygatorapp-master/build/iphone/main.m
+  /Users/geoffreyverhulst/Dropbox/partygatorapp/build/iphone/main.m

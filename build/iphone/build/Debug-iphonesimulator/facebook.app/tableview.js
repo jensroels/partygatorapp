@@ -1,1 +1,1 @@
-/Users/geoffreyverhulst/Dropbox/partygatorapp-master/Resources/tableview.js
+/Users/geoffreyverhulst/Dropbox/partygatorapp/Resources/tableview.js

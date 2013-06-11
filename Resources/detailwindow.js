@@ -5,6 +5,8 @@
 var detailWindow = Titanium.UI.createWindow({
 	backgroundColor: "#ffffff",
 	navBarHidden: false,
+	backgroundGradient:{},
+	barImage:'images/barimage.png', 
 	barColor: '#ef4e4e'
 });
 
@@ -19,13 +21,12 @@ var mapViewDetail = Titanium.Map.createView({
 })
 
 var routeButton = Titanium.UI.createButton({
-   width:100,
-   title: 'route',
-   backgroundColor: '#ef4e4e',
-   color: '#ef4e4e',
-   height:"10%",
-   top: 330,
-   left:100
+   width:50,
+   height:50,
+   backgroundImage:"/images/routebutton.png",
+   backgroundSelectedImage:"/images/routebutton.png",
+   top: 180,
+   left:270
    });
 
 var dateViewDetail = Titanium.UI.createView({
@@ -124,11 +125,8 @@ var dateViewDetail = Titanium.UI.createView({
    rowDetail.add(dateViewDetail);
    
    detailWindow.add(rowDetail);
-   
-   detailWindow.add(routeButton);
 
 
 detailWindow.add(mapViewDetail);
 
-
-
+   detailWindow.add(routeButton);
