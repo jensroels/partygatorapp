@@ -66,7 +66,7 @@ var noEventsImage = Titanium.UI.createImageView({
    
    
    	var errorMessage= Titanium.UI.createLabel({
-   	text:"We didn't found any events, try another period",
+   	text:"We didn't find any events, try another period",
    	color:'#d0d1d3',
    	font: { fontSize:12, fontWeight:'bold'},
    	width:272,
@@ -83,7 +83,10 @@ var noEventsImage = Titanium.UI.createImageView({
 noLocationWindow.add(noLocationImage);
 
 var startPartyGator = Ti.UI.createButton({
-	title:'start party gator',
+	title:'',
+	image:'images/startButton.png',
+	width:230,
+	height:50,
 	top:380
 })
 
@@ -98,7 +101,7 @@ startPartyGator.addEventListener("click",function(e){
 	// vie latitude delte en longitute delta het zoom gehalte instellen hoe groter het getal hoe verder uit gezoemt
 	Titanium.Geolocation.getCurrentPosition(function(e){
 	 if (e.error){
-		alert("pls set up your location services");
+		alert("Set up your location services");
 	}else{
 		noLocationWindow.close();
 		runPartyGator();
@@ -305,7 +308,8 @@ homeWindow.add(activityIndicator);
 activityIndicator.show();
 getLocation();
 Ti.Gesture.addEventListener("shake",function(e){
-getEvents(7);
+//getEvents(7);
+getLocation();
 })		
 }
 
@@ -433,6 +437,7 @@ xhr.onload = function() {
 
 function getLocation(){
 if (Ti.Geolocation.locationServicesEnabled) {
+	 Ti.Geolocation.restart();
 Ti.Geolocation.purpose = "Recieve User Location";
 // Set Distance filter. This dictates how often an event fires based on the distance the device moves. This value is in meters.
 Titanium.Geolocation.distanceFilter = 5;
@@ -456,7 +461,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
 		mapViewDetail.setLocation(region);
-		
+		Ti.API.info(my_lat);
 		myLoc  = Ti.Map.createAnnotation({
 		    latitude: my_lat,
 		    longitude: my_lng,
