@@ -189,7 +189,10 @@ function runPartyGator(){
 tabGroup.open();
 homeWindow.add(activityIndicator);
 activityIndicator.show();
-getLocation();		
+getLocation();
+Ti.Gesture.addEventListener("shake",function(e){
+	getEvents(7);
+})		
 }
 
 
