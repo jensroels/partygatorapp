@@ -1,4 +1,7 @@
 var jsonObject;
+var jsonObjectToday;
+var jsonObjectWeek;
+var jsonObjectMaand;
 var data = [];
 var region;
 var tabGroup = Titanium.UI.createTabGroup();
@@ -6,6 +9,8 @@ Ti.include('facebook.js');
 Ti.include('tableview.js');
 Ti.include('detailwindow.js');
 var xhr = Titanium.Network.createHTTPClient();
+var xhrWeek = Titanium.Network.createHTTPClient();
+var xhrMaand = Titanium.Network.createHTTPClient();
 var my_lat;
 var my_lng;	
 var annotationObject = [];
@@ -39,6 +44,27 @@ var hometab = Titanium.UI.createTab({
 	navBarHidden: true
 })
 
+
+
+var nextButton = Titanium.UI.createButton({
+	top:0,
+	backgroundImage:"images/next_periode.png",
+	left:270,
+	width:50,
+	height:44
+})
+
+var prevButton = Titanium.UI.createButton({
+	top:0,
+	backgroundImage:"images/prev_periode.png",
+	left:0,
+	visible:false,
+	width:50,
+	height:44
+})
+
+
+
 tabGroup.addTab(hometab);
 
 //mapview voor op het home screen
@@ -62,7 +88,7 @@ var topNavBar = Titanium.UI.createView({
 })
 
 var periodeLabel = Titanium.UI.createLabel({
-	text:"PARTYGATOR",
+	text:"TODAY",
 	font: { fontSize: 18, font: "Helvetica Neue", fontWeight:"bold" },
 	top: 7,
 	height:30,
@@ -78,6 +104,58 @@ topNavBar.add(periodeLabel);
 
 homeWindow.add(topNavBar);
 homeWindow.add(mapView);
+homeWindow.add(prevButton);
+homeWindow.add(nextButton);
+
+
+function emptyAllEntrees(){
+	tableView.data = data;
+	annotationObject = [];
+	mapView.removeAllAnnotations();	
+}
+
+nextButton.addEventListener("click",function(e){
+	
+	switch (periodeLabel.getText()) {
+case 'TODAY':
+	prevButton.setVisible(true);
+    addAnnotationsToMap(jsonObjectWeek);
+	periodeLabel.setText("THIS WEEK");
+    break;
+case 'THIS WEEK':
+	nextButton.setVisible(false);
+    addAnnotationsToMap(jsonObjectMaand);
+	periodeLabel.setText("THIS MONTH");
+    break;
+default:
+    
+    break;
+}
+	
+})
+
+
+prevButton.addEventListener("click",function(e){
+	
+	switch (periodeLabel.getText()) {
+case 'THIS WEEK':
+	prevButton.setVisible(false);
+    addAnnotationsToMap(jsonObjectToday);
+	periodeLabel.setText("TODAY");
+	
+    break;
+case 'THIS MONTH':
+	nextButton.setVisible(true);
+    addAnnotationsToMap(jsonObjectWeek);
+	periodeLabel.setText("THIS WEEK");
+	
+    break;
+default:
+    break;
+}
+	
+})
+
 
 if(!Titanium.App.Properties.hasProperty("firstrun")){
 	Titanium.App.Properties.setBool('firstrun',1);
@@ -87,15 +165,12 @@ if(!Titanium.App.Properties.hasProperty("firstrun")){
 	runPartyGator();
 }
 
-
-
 function runPartyGator(){
 tabGroup.open();
 homeWindow.add(activityIndicator);
 activityIndicator.show();
 getLocation();		
 }
-
 
 
 //checken of er internet is en het facebook login scherm tonen
@@ -112,7 +187,7 @@ function checkonline(){
 
 
 
-function getEvents(){
+function getEvents(periodeDagen){
 	if(checkonline()){
 	//annotations verwijderen als marker gedragged wordt
 	/*for (i=annotationObject.length-1;i>=0;i--) {
@@ -120,17 +195,23 @@ function getEvents(){
     }
     annotationObject = [];*/
 
-	xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
+	//xhr.open("GET","http://divergentminddesign.com/jens/php/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005");
+	xhr.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/2");
 	xhr.send();
+	
+	
+	xhrWeek.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/7");
+	xhrWeek.send();
+	
+	xhrMaand.open("GET","http://party-gator.com/index.php/home/get_events_titanium/"+my_lat+"/"+my_lng+"/0.005/30");
+	xhrMaand.send();
 	}
 }
 
 
-xhr.onload = function() {
-   jsonObject = JSON.parse(this.responseText);
-   homeWindow.add(tableView);
-   for(var i = 0;i<jsonObject.events.length;i++){
-   	
+function addAnnotationsToMap(jsonObject){
+	emptyAllEntrees();
+	for(var i = 0;i<jsonObject.events.length;i++){
    var title = jsonObject.events[i].name;
    annotationObject[i] = Titanium.Map.createAnnotation({
    	latitude:jsonObject.events[i].latitude,
@@ -153,9 +234,24 @@ xhr.onload = function() {
 })
    //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
+}
 
-
+xhr.onload = function() {
+   jsonObjectToday = JSON.parse(this.responseText);
+   homeWindow.add(tableView);
+  addAnnotationsToMap(jsonObjectToday);
  }
+ 
+ xhrWeek.onload = function() {
+  jsonObjectWeek = JSON.parse(this.responseText);
+  //addAnnotationsToMap(jsonObjectWeek);
+ }
+ 
+  xhrMaand.onload = function() {
+  jsonObjectMaand = JSON.parse(this.responseText);
+  //addAnnotationsToMap(jsonObjectWeek);
+ }
+
 
 
 function getLocation(){
@@ -199,7 +295,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
   			getEvents();
 		});*/
 		
-		getEvents();
+		getEvents(7);
 });
 
 }
