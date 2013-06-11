@@ -10,6 +10,13 @@ var detailWindow = Titanium.UI.createWindow({
 	barColor: '#ef4e4e'
 });
 
+var scrollView = Titanium.UI.createScrollView({
+	contentWidth: 'auto',
+  contentHeight: 'auto',
+  showVerticalScrollIndicator: true,
+  showHorizontalScrollIndicator: false
+})
+
 
 var mapViewDetail = Titanium.Map.createView({
 	top:0,
@@ -17,8 +24,18 @@ var mapViewDetail = Titanium.Map.createView({
 	height:230,
 	width:"100%",
 	mapType: Titanium.Map.STANDARD_TYPE,
-	userLocation:true,
+	userLocation:false
 })
+
+var routeButton = Titanium.UI.createButton({
+   width:50,
+   height:50,
+   backgroundImage:"/images/routebutton.png",
+   backgroundSelectedImage:"/images/routebutton.png",
+   top: 170,
+   left:260
+   });
+   
 
 
 var dateViewDetail = Titanium.UI.createView({
@@ -102,23 +119,34 @@ var dateViewDetail = Titanium.UI.createView({
    })
    
    
+   var descriptionLabel = Titanium.UI.createLabel({
+   	color:"#1c1f23",
+   	text:"",
+   	top:310,
+   	width:"100%"
+   })
+   
+   	
    rowDetail.add(titleDetail);
    rowDetail.add(iconLocatieDetail);
    rowDetail.add(locationDetail);
    rowDetail.add(iconTijdDetail);
    rowDetail.add(startuurDetail);
    rowDetail.add(dateViewDetail);
-
+	
    
    dateViewDetail.add(maandDetail);
    dateViewDetail.add(dagDetail);
    dateViewDetail.add(lineDetail);
    
    rowDetail.add(dateViewDetail);
+  scrollView.add(descriptionLabel);
    
-   detailWindow.add(rowDetail);
+   scrollView.add(rowDetail);
 
 
-detailWindow.add(mapViewDetail);
+scrollView.add(mapViewDetail);
 
-
+   scrollView.add(routeButton);
+   
+   detailWindow.add(scrollView);

@@ -1,3 +1,4 @@
+
 /**
  * @author Jens Roels
  */
@@ -23,10 +24,10 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 
 
 
-function addRow(titel,startdatum, locatie, einddatum, long, lat){
+function addRow(titel,startdatum, locatie, einddatum, long, lat, description){
 	//Ti.API.info(startdatum);
 	
-		
+	
 	var title= Titanium.UI.createLabel({
    	text:titel.substr(0,22).toUpperCase(),
    	top:10,
@@ -128,7 +129,8 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
       detailButton.addEventListener('click', function(event){
 		//mapView.selectAnnotation(e.annotationObject);
 		//alert("test detail");
-		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat);
+		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat, description);
+		
    });
    
   tableView.appendRow(row);
@@ -145,8 +147,8 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
 
 //deze functie gaat het detail view openen
 // met de variabele die worden door gegeven wordt de inhoud vaangepast naar de juiste informatie
-function openDetailWindow(titel,startdatum, locatie, einddatum, long, lat){
-	
+function openDetailWindow(titel,startdatum, locatie, einddatum, long, lat, description){
+	Ti.API.info(description);
 var marker = Ti.Map.createAnnotation({
         latitude: lat,
         longitude: long,
@@ -158,6 +160,7 @@ var marker = Ti.Map.createAnnotation({
     });
     mapViewDetail.addAnnotation(marker);	
 	mapViewDetail.selectAnnotation(marker);
+	mapViewDetail.addAnnotation(myLoc);
 titleDetail.setText(titel.substr(0,30));
    detailRegion={
             latitude: lat,
@@ -171,25 +174,17 @@ locationDetail.setText(locatie.toUpperCase().substr(0,30));
 startuurDetail.setText(startdatum.substr(11,5)+' - '+einddatum.substr(11,5));
 dagDetail.setText(startdatum.substr(8,2));
 maandDetail.setText(month[parseInt(startdatum.substr(5,2), 10)]);
+descriptionLabel.setText("");
+descriptionLabel.setText(description);
+descriptionLabel.setHeight("auto");
 hometab.open(detailWindow,{animated:true});
+
+   routeButton.addEventListener('click',function(){
+		var eventlat = lat; // dit is de destination 
+		var eventlng = long;
+		var str = 'http://maps.apple.com/?daddr='+ eventlat + ',' + eventlng +'&saddr='+my_lat+ ',' +my_lng;		 
+		//Ti.API.info("string for--->"+str);		 
+		Ti.Platform.openURL(str);
+   });
+
 }
-
-
-
-
-//checken of de array bestaat, eventlistener op annotations en scrollen naar de bijhorende list - ERRORT
-   /*var clicktruefalse = 1;
-   mapView.addEventListener('click', function(event){
-	   if(typeof annotationObject === 'undefined'){
-	   	alert('array empty');
-	   }else if(annotationObject.length > 0){
-	   		var clicksource = event.annotationObject.id;
-	   		if(clicktruefalse == 1){
-	   			alert(clicksource);
-	   			tableView.scrollToIndex(clicksource);
-	   			clicktruefalse = 0;
-	   		}else if(event.clicksource != annotationObject){
-	   			clicktruefalse = 1;
-	   		}
-		}
-	});*/
