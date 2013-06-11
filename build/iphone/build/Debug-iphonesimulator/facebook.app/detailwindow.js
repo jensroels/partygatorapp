@@ -1,1 +1,1 @@
-/Users/geoffreyverhulst/Dropbox/partygatorapp/Resources/detailwindow.js
+/Users/geoffreyverhulst/Dropbox/partygatorapp-master/Resources/detailwindow.js

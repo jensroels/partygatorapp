@@ -54,6 +54,10 @@ var overlayImage = Titanium.UI.createImageView({
 
 demoWindow.add(overlayImage);
 
+overlayImage.addEventListener("click",function(e){
+	runPartyGator();
+})
+
 var hometab = Titanium.UI.createTab({
 	window:homeWindow,
 	tabBarHidden:true,
@@ -251,7 +255,13 @@ function addAnnotationsToMap(jsonObject){
    	image: "images/pin_red.png",
    	animate:true
    })
-   addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude);
+   var desc;
+   if(jsonObject.events[i].description.length<5){
+   	desc = "There is no more information available";
+   }else{
+   	desc = jsonObject.events[i].description.substr(0,500).replace(/<br \/>/gi,'\n');
+   }
+   addRow(title, jsonObject.events[i].start_time.toString(),jsonObject.events[i].location,jsonObject.events[i].end_time,jsonObject.events[i].longitude,jsonObject.events[i].latitude,desc);
    
    }
    

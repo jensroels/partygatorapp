@@ -24,10 +24,10 @@ var activityIndicator = Ti.UI.createActivityIndicator({
 
 
 
-function addRow(titel,startdatum, locatie, einddatum, long, lat){
+function addRow(titel,startdatum, locatie, einddatum, long, lat, description){
 	//Ti.API.info(startdatum);
 	
-		
+	
 	var title= Titanium.UI.createLabel({
    	text:titel.substr(0,22).toUpperCase(),
    	top:10,
@@ -129,7 +129,7 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
       detailButton.addEventListener('click', function(event){
 		//mapView.selectAnnotation(e.annotationObject);
 		//alert("test detail");
-		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat);
+		openDetailWindow(titel,startdatum, locatie, einddatum, long, lat, description);
 		
    });
    
@@ -147,8 +147,8 @@ function addRow(titel,startdatum, locatie, einddatum, long, lat){
 
 //deze functie gaat het detail view openen
 // met de variabele die worden door gegeven wordt de inhoud vaangepast naar de juiste informatie
-function openDetailWindow(titel,startdatum, locatie, einddatum, long, lat){
-	
+function openDetailWindow(titel,startdatum, locatie, einddatum, long, lat, description){
+	Ti.API.info(description);
 var marker = Ti.Map.createAnnotation({
         latitude: lat,
         longitude: long,
@@ -174,6 +174,9 @@ locationDetail.setText(locatie.toUpperCase().substr(0,30));
 startuurDetail.setText(startdatum.substr(11,5)+' - '+einddatum.substr(11,5));
 dagDetail.setText(startdatum.substr(8,2));
 maandDetail.setText(month[parseInt(startdatum.substr(5,2), 10)]);
+descriptionLabel.setText("");
+descriptionLabel.setText(description);
+descriptionLabel.setHeight("auto");
 hometab.open(detailWindow,{animated:true});
 
    routeButton.addEventListener('click',function(){
@@ -183,5 +186,12 @@ hometab.open(detailWindow,{animated:true});
 		//Ti.API.info("string for--->"+str);		 
 		Ti.Platform.openURL(str);
    });
+   
+   mylocButtonDetail.addEventListener('click', function(event){
+		mapViewDetail.selectAnnotation(myLoc);
+		mapViewDetail.setLocation(region);
+   });
 
 }
+
+
