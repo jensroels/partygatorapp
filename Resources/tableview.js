@@ -161,15 +161,17 @@ var marker = Ti.Map.createAnnotation({
     mapViewDetail.addAnnotation(marker);	
 	mapViewDetail.selectAnnotation(marker);
 	mapViewDetail.addAnnotation(myLoc);
-titleDetail.setText(titel.substr(0,30));
+
    detailRegion={
             latitude: lat,
             longitude: long,
             animate:true,
-            latitudeDelta:0.001,
-            longitudeDelta:0.001, 
+            latitudeDelta:0.01,
+            longitudeDelta:0.01, 
         };
         mapViewDetail.setLocation(detailRegion);
+        titleDetail.setText(titel.substr(0,28).toUpperCase());
+        detailWindow.setTitle(titel.substr(0,28).toUpperCase());
 locationDetail.setText(locatie.toUpperCase().substr(0,30));
 startuurDetail.setText(startdatum.substr(11,5)+' - '+einddatum.substr(11,5));
 dagDetail.setText(startdatum.substr(8,2));

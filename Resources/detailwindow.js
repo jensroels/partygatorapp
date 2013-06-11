@@ -11,7 +11,7 @@ var detailWindow = Titanium.UI.createWindow({
 });
 
 var scrollView = Titanium.UI.createScrollView({
-	contentWidth: 'auto',
+	contentWidth: 320,
   contentHeight: 'auto',
   showVerticalScrollIndicator: true,
   showHorizontalScrollIndicator: false
@@ -82,9 +82,9 @@ var dateViewDetail = Titanium.UI.createView({
    var titleDetail = Titanium.UI.createLabel({
    	top:10,
    	color:'#ffffff',
-   	width:260,
+   	width:262,
    	left:58,
-   	font: { fontSize:15,fontWeight:'bold'},
+   	font: { fontSize:14,fontWeight:'bold'},
    	textAlign:'left'
    })
    
