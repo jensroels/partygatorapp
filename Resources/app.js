@@ -239,7 +239,10 @@ function emptyAllEntrees(){
 }
 
 nextButton.addEventListener("click",function(e){
+	//if(checkonline()){
+		
 	
+		
 	switch (periodeLabel.getText()) {
 case 'TODAY':
 	prevButton.setVisible(true);
@@ -255,6 +258,7 @@ default:
     
     break;
 }
+//}
 	
 })
 
@@ -308,8 +312,8 @@ homeWindow.add(activityIndicator);
 activityIndicator.show();
 getLocation();
 Ti.Gesture.addEventListener("shake",function(e){
-//getEvents(7);
-getLocation();
+getEvents(7);
+//getLocation();
 })		
 }
 
@@ -321,7 +325,7 @@ function checkonline(){
 		//loginWindow.open();
 		return true;
 	 }else{
-	 	var alertDialog = Titanium.UI.createAlertDialog({ title: 'Geen verbinding', message: 'Het lijkt erop dat u niet verbonden bent met een netwerk.', buttonNames: ['OK'] }); alertDialog.show();
+	 	var alertDialog = Titanium.UI.createAlertDialog({ title: 'No interwebs', message: 'It looks like you cut us of from the interwebs :( Where do we have to watch pictures of silly cats now?. Please connect to the interwebs and refresh by shaking your phone.).', buttonNames: ['OK'] }); alertDialog.show();
 	 	return false;
 	 }
 }
@@ -353,6 +357,10 @@ function getEvents(periodeDagen){
 
 function addAnnotationsToMap(jsonObject){
 	emptyAllEntrees();
+	
+	if(jsonObject == null){
+		alert("We didn't had the chance to get events from the intewebs, please connect your device to the interwebs and shake your phone to refresh");
+	}else{
 	
 	if(jsonObject.events.length<1){
 		//alert('leeg jongeyuuu');
@@ -408,6 +416,7 @@ activityIndicator.hide()
    //tableView.setData(data);
    mapView.addAnnotations(annotationObject);
    mapView.setLocation(region);
+  }
 }
 
 xhr.onload = function() {
@@ -461,7 +470,7 @@ Titanium.Geolocation.getCurrentPosition(function(e){
         my_lat=e.coords.latitude;
         my_lng=e.coords.longitude;
 		mapViewDetail.setLocation(region);
-		Ti.API.info(my_lat);
+		
 		myLoc  = Ti.Map.createAnnotation({
 		    latitude: my_lat,
 		    longitude: my_lng,
