@@ -3,7 +3,7 @@
  */
 
 var detailWindow = Titanium.UI.createWindow({
-	backgroundColor: "#ffffff",
+	backgroundColor:"#2e3945",
 	navBarHidden: false,
 	backgroundGradient:{},
 	barImage:'images/barimage.png', 
@@ -33,7 +33,7 @@ var routeButton = Titanium.UI.createButton({
    backgroundImage:"/images/routebutton.png",
    backgroundSelectedImage:"/images/routebutton.png",
    top: 120,
-   left:278
+   left:320
 });
 
 var mylocButtonDetail = Titanium.UI.createButton({
@@ -42,7 +42,7 @@ var mylocButtonDetail = Titanium.UI.createButton({
 	backgroundImage:"/images/mylocButton.png",
 	backgroundSelectedImage:"/images/mylocButton.png",
 	top: 175,
-	left: 278
+	left: 320
 });
 
 
@@ -128,8 +128,9 @@ var dateViewDetail = Titanium.UI.createView({
    
    
    var descriptionLabel = Titanium.UI.createLabel({
-   	color:"#1c1f23",
+   	color:"#ffffff",
    	text:"",
+   	backgroundColor:"#2e3945",
    	top:320,
    	left: 5,
    	width:310

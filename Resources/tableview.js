@@ -180,6 +180,20 @@ descriptionLabel.setText("");
 descriptionLabel.setText(description);
 descriptionLabel.setHeight("auto");
 hometab.open(detailWindow,{animated:true});
+routeButton.setLeft(360);
+mylocButtonDetail.setLeft(360);
+
+routeButton.animate({
+	left:278, 
+	duration:500, 
+	curve:Titanium.UI.ANIMATION_CURVE_EASE_IN_OUT
+});
+
+mylocButtonDetail.animate({
+	left:278, 
+	duration:600, 
+	curve:Titanium.UI.ANIMATION_CURVE_EASE_IN_OUT
+});
 
    routeButton.addEventListener('click',function(){
 		var eventlat = lat; // dit is de destination 
